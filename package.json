@@ -1,0 +1,30 @@
+{
+  "name": "codaping",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "^13.1.1",
+    "@rebass/preset": "^4.0.5",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.10",
+    "emotion-theming": "^11.0.0",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "next": "13.1.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "^6.6.1",
+    "rebass": "^4.0.7",
+    "typescript": "4.9.4"
+  },
+  "devDependencies": {
+    "@types/rebass": "^4.0.10"
+  }
+}
