@@ -4,7 +4,7 @@ import { Rajdhani } from '@next/font/google'
 import Head from 'next/head'
 import { Layout } from '../common/Layout'
 
-const rajdhani = Rajdhani({weight: ['300', '400', '500', '600', '700']})
+export const rajdhani = Rajdhani({weight: ['300', '400', '500', '600', '700'], subsets: ["latin"]})
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

@@ -1,6 +1,8 @@
 import { Rajdhani } from "@next/font/google";
+import Link from "next/link";
 import { Box, Flex, Text } from "rebass";
-import { ContainedButton } from "../../components/Buttons/ContainedButton";
+import { OutlainedButton } from "../../components/Buttons/OutlainedButton";
+import { Brand } from "./Brand";
 import { Nav } from "./Nav";
 
 const Header = () => {
@@ -9,20 +11,23 @@ const Header = () => {
       height={80}
       width="100%"
       alignItems="center"
-      sx={{ boxShadow: "2px 2px 8px var(--blueBeige)" }}
+      sx={{
+        boxShadow: "2px 2px 8px var(--blueBeige)",
+        "& > ul > li > a": {
+          textDecoration: "none",
+        },
+      }}
     >
-      <Text as="p" fontSize={30} paddingX={50} color="var(--blue)" fontWeight={300}>
-        Codaping
-      </Text>
+      <Brand />
       <Nav />
       <Flex marginRight={50} sx={{ position: "absolute", right: 0 }}>
-        <ContainedButton
+        <OutlainedButton
           bg="inherit"
           text="Sign in"
           height={40}
-          color="var(--blueGrey)"
+          colorString="var(--blueGrey)"
           borderColor="var(--blueBeige)"
-        ></ContainedButton>
+        ></OutlainedButton>
       </Flex>
     </Flex>
   );

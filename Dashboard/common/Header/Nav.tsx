@@ -12,6 +12,9 @@ export const Nav = () => {
             color: "var(--blue)",
             fontSize: 20,
           },
+          "& > ul > li > a:hover": {
+            transform: "scale(1.1)"
+          },
           "& > ul": {
             listStyle: "none",
             paddingLeft: 0,
