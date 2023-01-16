@@ -79,3 +79,5 @@ service-worker.js
 .idea
 .vercel
 .turbo
+
+.DS_Store

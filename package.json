@@ -1,0 +1,17 @@
+{
+    "name": "codaping",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": ["api", "dashboard"],
+    "scripts": {
+        "dev": "yarn workspace @codaping/dashboard dev",
+        "build": "yarn workspace @codaping/dashboard build",
+        "start": "yarn workspace @codaping/dashboard start",
+        "lint": "yarn workspace @codaping/dashboard lint"
+      },
+      "dependencies": {
+        "firebase": "^9.15.0",
+        "firebase-admin": "^11.4.1",
+        "typescript": "4.9.4"
+      }
+}
