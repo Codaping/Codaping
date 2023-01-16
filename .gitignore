@@ -81,3 +81,5 @@ service-worker.js
 .turbo
 
 .DS_Store
+
+tsconfig.tsbuildinfo

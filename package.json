@@ -7,7 +7,8 @@
         "dev": "yarn workspace @codaping/dashboard dev",
         "build": "yarn workspace @codaping/dashboard build",
         "start": "yarn workspace @codaping/dashboard start",
-        "lint": "yarn workspace @codaping/dashboard lint"
+        "lint": "yarn workspace @codaping/dashboard lint",
+        "compile": "yarn workspace @codaping/dashboard compile"
       },
       "dependencies": {
         "firebase": "^9.15.0",
