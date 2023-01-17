@@ -1,10 +1,12 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { Rajdhani } from '@next/font/google'
-import Head from 'next/head'
-import { Layout } from '../common/Layout'
+import "../styles/globals.css";
 
-export const rajdhani = Rajdhani({weight: ['300', '400', '500', '600', '700'], subsets: ["latin"]})
+import { Rajdhani } from "@next/font/google";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+
+import { Layout } from "../common/Layout";
+
+export const rajdhani = Rajdhani({ weight: ["300", "400", "500", "600", "700"], subsets: ["latin"] });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -18,7 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Component {...pageProps} />
       </Layout>
     </div>
-  )
-}
+  );
+};
 
 export default MyApp;
