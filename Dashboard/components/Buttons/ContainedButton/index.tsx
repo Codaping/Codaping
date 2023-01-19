@@ -1,34 +1,25 @@
-import { Button } from "rebass";
-import { rajdhani } from "../../../pages/_app";
+import { type ButtonProps, Button } from "rebass";
 
-export interface ButtonProps {
-  text: string;
-  height: number;
-  colorString: string;
-  borderColor: string;
-  bg: string;
-}
+import { rajdhani } from "../../../pages/_app";
 
 export const ContainedButton = ({ ...props }: ButtonProps) => {
   return (
     <Button
-      color={props.colorString}
       width="fit-content"
-      height={props.height}
-      bg={props.bg}
       alignItems="center"
       display="flex"
       className={rajdhani.className}
+      {...props}
       sx={{
         border: "2px solid",
         borderRadius: 0,
-        borderColor: props.borderColor,
         justifyContent: "center",
         cursor: "pointer",
         ":hover": { transform: "scale(1.05)", transitionDuration: "100ms" },
+        ...props.sx
       }}
     >
-      {props.text}
+      {props.children}
     </Button>
   );
 };

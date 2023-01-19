@@ -1,11 +1,13 @@
-import { Rajdhani } from "@next/font/google";
-import Link from "next/link";
-import { Box, Flex, Text } from "rebass";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Flex } from "rebass";
+
 import { OutlainedButton } from "../../components/Buttons/OutlainedButton";
 import { Brand } from "./Brand";
 import { Nav } from "./Nav";
 
 const Header = () => {
+  const { data } = useSession();
+
   return (
     <Flex
       height={80}
@@ -14,8 +16,8 @@ const Header = () => {
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
         "& > ul > li > a": {
-          textDecoration: "none",
-        },
+          textDecoration: "none"
+        }
       }}
     >
       <Brand />
@@ -23,11 +25,13 @@ const Header = () => {
       <Flex marginRight={50} sx={{ position: "absolute", right: 0 }}>
         <OutlainedButton
           bg="inherit"
-          text="Sign in"
           height={40}
-          colorString="var(--blueGrey)"
-          borderColor="var(--blueBeige)"
-        ></OutlainedButton>
+          color="var(--blueGrey)"
+          sx={{ borderColor: "var(--blueBeige)" }}
+          onClick={() => (data ? signOut() : signIn())}
+        >
+          {data ? "Sign out" : "Sign in"}
+        </OutlainedButton>
       </Flex>
     </Flex>
   );

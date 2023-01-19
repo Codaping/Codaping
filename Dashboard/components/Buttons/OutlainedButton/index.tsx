@@ -1,28 +1,27 @@
-import { Button } from "rebass";
-import { rajdhani } from "../../../pages/_app";
-import { ButtonProps } from "../ContainedButton";
+import { type ButtonProps, Button } from "rebass";
 
-export const OutlainedButton = ({ ...props }: ButtonProps) => {
+import { rajdhani } from "../../../pages/_app";
+
+export const OutlainedButton = ({ ...props }: ButtonProps & { sx: { borderColor: string } }) => {
   return (
     <Button
       variant="outline"
-      color={props.colorString}
       width="fit-content"
-      height={props.height}
-      bg={props.bg}
       alignItems="center"
       display="flex"
       className={rajdhani.className}
+      {...props}
       sx={{
         border: "2px solid",
         borderRadius: 0,
-        borderColor: props.borderColor,
         justifyContent: "center",
         cursor: "pointer",
-        ":hover" : {bg: props.borderColor, transitionDuration: "200ms"}
+        // @ts-ignore
+        ":hover": { bg: props.sx?.borderColor, transitionDuration: "200ms" },
+        ...props.sx
       }}
     >
-      {props.text}
+      {props.children}
     </Button>
   );
 };

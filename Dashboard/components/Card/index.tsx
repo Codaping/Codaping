@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Flex } from "rebass";
 
 interface CardProps {
@@ -17,7 +17,7 @@ export const Card = ({ ...props }: CardProps) => {
       padding={20}
       flexDirection="column"
       alignItems="center"
-      sx={{border: "1px solid var(--blue)"}}
+      sx={{ border: "1px solid var(--blue)" }}
     >
       {props.children}
     </Flex>

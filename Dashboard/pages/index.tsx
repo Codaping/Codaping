@@ -1,4 +1,5 @@
 import { Rancho } from "@next/font/google";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Flex, Image, Text } from "rebass";
 
@@ -9,6 +10,9 @@ const rancho = Rancho({ weight: "400", style: "normal", subsets: ["latin"] });
 
 const Home = () => {
   const [height, setHeight] = useState(0);
+
+  const { data } = useSession();
+
   useEffect(() => {
     setHeight(window.innerHeight);
   }, []);

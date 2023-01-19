@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Flex, Text } from "rebass";
+
 import { Card } from ".";
 import { DragAndDropSection } from "./DragAndDropSection";
 
@@ -15,20 +16,9 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
   }, []);
 
   return (
-    <Flex
-      height={height - 80}
-      width="fit-content"
-      alignItems="center"
-      marginX={200}
-    >
+    <Flex height={height - 80} width="fit-content" alignItems="center" marginX={200}>
       <Card widthCard={450} heightCard={437} bg="var(--blueBeige)">
-        <Text
-          as="p"
-          color="var(--lightBeige)"
-          fontSize={32}
-          fontWeight={300}
-          marginTop={10}
-        >
+        <Text as="p" color="var(--lightBeige)" fontSize={32} fontWeight={300} marginTop={10}>
           {props.title}
         </Text>
         <DragAndDropSection description={props.description} />
