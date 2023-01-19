@@ -10,7 +10,7 @@ export const Nav = () => {
           "& > ul > li > a": {
             textDecoration: "none",
             color: "var(--blue)",
-            fontSize: 20,
+            fontSize: 20
           },
           "& > ul > li > a:hover": {
             transform: "scale(1.1)"
@@ -19,8 +19,8 @@ export const Nav = () => {
             listStyle: "none",
             paddingLeft: 0,
             display: "flex",
-            gap: 50,
-          },
+            gap: 50
+          }
         }}
       >
         <ul>

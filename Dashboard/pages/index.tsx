@@ -1,6 +1,5 @@
 import { Rancho } from "@next/font/google";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { Flex, Image, Text } from "rebass";
 
 import { Card } from "../components/Card";
@@ -9,18 +8,12 @@ import { PrincipalCard } from "../components/Card/PrincipalCard";
 const rancho = Rancho({ weight: "400", style: "normal", subsets: ["latin"] });
 
 const Home = () => {
-  const [height, setHeight] = useState(0);
-
   const { data } = useSession();
-
-  useEffect(() => {
-    setHeight(window.innerHeight);
-  }, []);
 
   return (
     <Flex>
       <PrincipalCard title="Topic of the day" description="Drap & Drop your files here" />
-      <Flex height={height - 80} alignItems="center" marginX={200}>
+      <Flex height="calc(100vh - 80px)" alignItems="center" marginX={200}>
         <Card widthCard={609} heightCard={437} bg="var(--beige)">
           <Flex width="100%" justifyContent="center" sx={{ position: "relative" }}>
             <Flex

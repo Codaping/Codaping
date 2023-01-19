@@ -6,14 +6,7 @@ export const Brand = () => {
     <ul>
       <li>
         <Link href="/">
-          <Text
-            as="p"
-            fontSize={30}
-            paddingX={50}
-            color="var(--blue)"
-            fontWeight={300}
-            sx={{ cursor: "pointer" }}
-          >
+          <Text as="p" fontSize={30} paddingX={50} color="var(--blue)" fontWeight={300} sx={{ cursor: "pointer" }}>
             Codaping
           </Text>
         </Link>

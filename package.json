@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "api",
     "dashboard"
   ],
   "scripts": {
@@ -15,13 +14,15 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "firebase": "^9.15.0",
+    "@rebass/forms": "^4.0.6",
+    "firebase": "9.15.0",
     "firebase-admin": "^11.4.1",
     "next-auth": "^4.18.8",
     "typescript": "4.9.4"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.2",
+    "@types/rebass__forms": "^4.0.6",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "commitizen": "^4.2.6",

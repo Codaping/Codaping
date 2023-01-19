@@ -11,7 +11,7 @@ interface CardProps {
 export const Card = ({ ...props }: CardProps) => {
   return (
     <Flex
-      width={props.widthCard}
+        width={props.widthCard}
       height={props.heightCard}
       backgroundColor={props.bg}
       padding={20}
