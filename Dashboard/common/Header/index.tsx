@@ -29,6 +29,7 @@ const Header = () => {
       <Flex alignItems="center">
         <Text mr={4}>{data?.user?.name}</Text>
         <MyButton
+          variant="outlined"
           bg="inherit"
           height={40}
           color="var(--blueGrey)"
