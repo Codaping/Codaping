@@ -1,7 +1,7 @@
-import { Box } from "rebass";
+import { Subject } from "../../views/subject";
 
 const SubjectPage = () => {
-  return <Box>subject</Box>;
+  return <Subject />;
 };
 
 export default SubjectPage;

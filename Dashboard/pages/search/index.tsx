@@ -1,7 +1,7 @@
-import { PrincipalCard } from "../../components/Card/PrincipalCard";
+import { Search } from "../../views/search";
 
 const SearchPage = () => {
-  return <PrincipalCard title="Do a search" description="Drap & Drop a file here" />;
+  return <Search />;
 };
 
 export default SearchPage;

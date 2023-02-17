@@ -1,6 +1,6 @@
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { Input, Label } from "@rebass/forms";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Flex, Text } from "rebass";
 
 interface DragAndDropSection {
@@ -9,12 +9,6 @@ interface DragAndDropSection {
 
 export const DragAndDropSection = ({ ...props }) => {
   const myRef = useRef<HTMLInputElement>();
-
-  useEffect(() => {
-    //@ts-ignore
-    console.log(myRef.current?.files[0]);
-  }, [myRef]);
-
   return (
     <Flex
       height={250}
