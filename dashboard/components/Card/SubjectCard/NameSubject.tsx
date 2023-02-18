@@ -1,7 +1,8 @@
 import { Input, Label } from "@rebass/forms";
 import axios from "axios";
 import { ref, uploadBytes } from "firebase/storage";
-import { type FormEvent, useState } from "react";
+import { useRouter } from "next/router";
+import { type FormEvent } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Box, Flex } from "rebass";
 
@@ -18,6 +19,8 @@ type FormValues = {
 };
 
 export const NameSubject = ({ ...props }: NameSubjectProps) => {
+  const router = useRouter();
+
   const handleSubmit = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
     try {
@@ -33,6 +36,7 @@ export const NameSubject = ({ ...props }: NameSubjectProps) => {
         const storageRef = ref(storage, `subjects/${(event.target as unknown as FormValues).subject.value}`);
         await uploadBytes(storageRef, props.pdfFile);
         props.setPdfFile(undefined);
+        router.reload();
       }
     } catch (error) {
       console.error(error);

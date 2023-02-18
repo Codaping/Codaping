@@ -1,48 +1,33 @@
-import { listAll, ref } from "firebase/storage";
-import React from "react";
-import { Document, Page } from "react-pdf";
-import { Box, Flex } from "rebass";
-
-import { storage } from "../../../libraries/firebase";
-
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import StarIcon from "@mui/icons-material/Star";
+import { Checkbox, Label } from "@rebass/forms";
+import React, { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+import { Box, Flex, Text } from "rebass";
 interface SubjectCardProps {
   onClick: () => void;
+  url: {
+    [x: string]: string;
+  };
 }
 
 export const SubjectCard = ({ ...props }: SubjectCardProps) => {
-  const listRef = ref(storage, "subjects");
+  const [isHovering, setIsHovering] = useState(false);
+  const [rating, setRating] = useState(0);
 
-  listAll(listRef)
-    .then((res) => {
-      res.items.forEach((itemRef) => {
-        // All the items under listRef.
-        console.log("items", itemRef);
-      });
-    })
-    .catch((error) => {
-      // Uh-oooooooooooooh, an error occurred!
-    });
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
 
-  // getDownloadURL(ref(storage, "subjects/*"))
-  //   .then((url) => {
-  //     // `url` is the download URL for 'images/stars.jpg'
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+  };
 
-  //     // This can be downloaded directly:
-  //     const xhr = new XMLHttpRequest();
-  //     xhr.responseType = "blob";
-  //     xhr.onload = (event) => {
-  //       const blob = xhr.response;
-  //     };
-  //     xhr.open("GET", url);
-  //     xhr.send();
+  const handleRatingChange = (event: any) => {
+    setRating(parseInt(event.target.value));
+  };
 
-  //     // Or inserted into an <img> element
-  //     const img = document.getElementById("myimg");
-  //     img.setAttribute("src", url);
-  //   })
-  //   .catch((error) => {
-  //     // Handle any errors
-  //   });
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
   return (
     <Flex
@@ -52,14 +37,11 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
       alignItems="center"
       flexDirection="column"
       onClick={props.onClick}
-      // onMouseEnter={() => {
-      //   // handle mouse enter event
-      // }}
-      // onMouseLeave={() => {
-      //   // handle mouse leave event
-      // }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
+        position: "relative",
         ":hover": { transform: "scale(1.02)", transitionDuration: "100ms", cursor: "pointer" }
       }}
     >
@@ -74,10 +56,52 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
           "& > div > div > canvas": { height: "400px !important", width: "280px !important" }
         }}
       >
-        {/* <Document file={props.pdfFile}>
+        <Document file={props.url.url}>
           <Page noData="No page specified." renderTextLayer={false} renderAnnotationLayer={false} pageNumber={1} />
-        </Document> */}
+        </Document>
       </Box>
+      {isHovering && (
+        <Flex
+          width="inherit"
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.8)"
+          }}
+        >
+          <Flex width="100%" flexDirection="column" p={20}>
+            <Flex justifyContent="space-between" width="100%" alignItems="center">
+              <Label>
+                <Checkbox size={30} color="var(--blue)" />
+              </Label>
+              <DeleteOutlineIcon
+                sx={{ cursor: "pointer", fontSize: 30, color: "var(--blue)" }}
+                onClick={() => console.log("Delete image")}
+              />
+            </Flex>
+            <Flex alignItems="center" justifyContent="center" height="100%" flexDirection="column">
+              <Text as="p" py={10} fontSize={28}>
+                {props.url.name}
+              </Text>
+              <Text as="p" py={10} fontSize={20}>
+                Please note
+              </Text>
+              <Flex>
+                {[...Array(5)].map((_, index) => (
+                  <StarIcon
+                    key={index}
+                    sx={{ cursor: "pointer", color: index < rating ? "gold" : "grey", fontSize: 40 }}
+                    onClick={() => setRating(index + 1)}
+                  />
+                ))}
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      )}
     </Flex>
   );
 };
