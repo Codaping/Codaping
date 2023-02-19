@@ -24,16 +24,16 @@ export const NameSubject = ({ ...props }: NameSubjectProps) => {
   const handleSubmit = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
     try {
+      const formattedName = (event.target as unknown as FormValues).subject.value
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .trim()
+        .replaceAll(" ", "-");
       await axios.post("http://localhost:3000/api/subjects/addSubject", {
-        name: (event.target as unknown as FormValues).subject.value
+        name: formattedName
       });
       if (props.pdfFile) {
-        const formattedName = (event.target as unknown as FormValues).subject.value
-          .toLowerCase()
-          .replace(/\s+/g, " ")
-          .trim()
-          .replaceAll(" ", "-");
-        const storageRef = ref(storage, `subjects/${(event.target as unknown as FormValues).subject.value}`);
+        const storageRef = ref(storage, `subjects/${formattedName}`);
         await uploadBytes(storageRef, props.pdfFile);
         props.setPdfFile(undefined);
         router.reload();

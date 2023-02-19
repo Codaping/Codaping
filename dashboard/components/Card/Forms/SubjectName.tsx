@@ -7,7 +7,7 @@ export const SubjectName = () => {
   const [subjects, setSubjects] = useState<{ name: string }[]>([]);
   useEffect(() => {
     (async () => {
-      const res = await axios.post("http://localhost:3000/api/subjects/getSubject");
+      const res = await axios.post("http://localhost:3000/api/subjects/getSubjects");
       setSubjects(res.data);
     })();
   }, []);
@@ -19,7 +19,7 @@ export const SubjectName = () => {
       </Label>
       <Select id="subject-name" name="subject-name" bg="var(--beige)" height={40} sx={{ border: "none" }}>
         {subjects.map((subject, i) => (
-          <option key={i}>{subject ? subject.name : "no subject in the database"}</option>
+          <option key={i}>{subject.name ?? "no subject in the database"}</option>
         ))}
       </Select>
     </Box>
