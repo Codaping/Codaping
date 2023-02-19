@@ -2,7 +2,7 @@ import { Input } from "@rebass/forms";
 import React, { useRef, useState } from "react";
 import { Flex, Text } from "rebass";
 
-import { NameSubject } from "./NameSubject";
+import { ParametersSubject } from "./ParametersSubject";
 
 export const AddSubject = ({ ...props }) => {
   const [pdfFile, setPdfFile] = useState<File | undefined>(undefined);
@@ -22,6 +22,7 @@ export const AddSubject = ({ ...props }) => {
       onClick={props.onClick}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
+        position: "relative",
         ":hover": { transform: "scale(1.02)", transitionDuration: "100ms", cursor: "pointer" }
       }}
     >
@@ -32,8 +33,8 @@ export const AddSubject = ({ ...props }) => {
         id="browse-file"
         name="browse-file"
         type="file"
-        height={250}
-        width={340}
+        height={400}
+        width={280}
         onChange={handleFileUpload}
         sx={{ position: "absolute", top: 0, opacity: 0 }}
         ref={myRef}
@@ -41,7 +42,7 @@ export const AddSubject = ({ ...props }) => {
     </Flex>
   ) : (
     <>
-      <NameSubject pdfFile={pdfFile} setPdfFile={setPdfFile} />
+      <ParametersSubject pdfFile={pdfFile} setPdfFile={setPdfFile} />
     </>
   );
 };

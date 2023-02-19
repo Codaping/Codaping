@@ -16,7 +16,7 @@ export const SectionButton = ({ pressed, ...props }: SectionButtonProps) => {
       height={50}
       bg="var(--blueBeige)"
       color={pressed ? "var(--blue)" : "var(--lightBeige)"}
-      {...props} // T'as oublié de passer le reste des propriétés
+      {...props}
       sx={{
         ...(pressed
           ? { transform: "scale(1.04)", borderColor: "black", border: "1px solid", borderBottomStyle: "none" }

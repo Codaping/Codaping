@@ -1,8 +1,9 @@
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DownloadIcon from "@mui/icons-material/Download";
 import StarIcon from "@mui/icons-material/Star";
 import { Checkbox, Label } from "@rebass/forms";
 import axios from "axios";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { Flex, Text } from "rebass";
 
@@ -46,6 +47,20 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
     }
   };
 
+  const downloadPdf = async () => {
+    const fileRef = ref(storage, props.items.fullPath);
+    const urlt = await getDownloadURL(fileRef);
+    const response = await fetch(urlt);
+    const blob = await response.blob();
+    const fileUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileRef.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     localStorage.getItem("checked") === "true" && localStorage.getItem("url") === props.items.url
       ? setChecked(true)
@@ -81,7 +96,7 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
           <Text as="p" py={10} fontSize={20}>
             Please note
           </Text>
-          <Flex>
+          <Flex pb={20}>
             {[...Array(5)].map((_, index) => (
               <StarIcon
                 key={index}
@@ -94,6 +109,10 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
               />
             ))}
           </Flex>
+          <DownloadIcon
+            onClick={downloadPdf}
+            sx={{ color: "var(--blueGrey)", fontSize: 30, ":hover": { cursor: "pointer" } }}
+          />
         </Flex>
       </Flex>
     </Flex>

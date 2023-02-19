@@ -1,4 +1,4 @@
-import { Input, Label } from "@rebass/forms";
+import { Input, Label, Radio } from "@rebass/forms";
 import axios from "axios";
 import { ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
@@ -9,16 +9,17 @@ import { Box, Flex } from "rebass";
 import { storage } from "../../../libraries/firebase";
 import { MyButton } from "../../Buttons";
 
-interface NameSubjectProps {
+interface ParametersSubjectProps {
   pdfFile: File | undefined;
   setPdfFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
 type FormValues = {
   subject: HTMLInputElement;
+  category: HTMLInputElement;
 };
 
-export const NameSubject = ({ ...props }: NameSubjectProps) => {
+export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLDivElement>) => {
@@ -29,8 +30,11 @@ export const NameSubject = ({ ...props }: NameSubjectProps) => {
         .replace(/\s+/g, " ")
         .trim()
         .replaceAll(" ", "-");
+      const category = (event.target as unknown as FormValues).category.value;
       await axios.post("http://localhost:3000/api/subjects/addSubject", {
-        name: formattedName
+        name: formattedName,
+        category: category,
+        note: 0
       });
       if (props.pdfFile) {
         const storageRef = ref(storage, `subjects/${formattedName}`);
@@ -86,6 +90,16 @@ export const NameSubject = ({ ...props }: NameSubjectProps) => {
             mt={10}
             required
           />
+          <Flex pt={10}>
+            <Label color="var(--blue)" fontWeight={500}>
+              <Radio name="category" id="category" value="participant" color="var(--blueBeige)" />
+              Participant
+            </Label>
+            <Label color="var(--blue)" fontWeight={500}>
+              <Radio name="category" id="category" value="cobra" color="var(--blueBeige)" />
+              Cobra
+            </Label>
+          </Flex>
           <MyButton
             type="submit"
             variant="contained"
