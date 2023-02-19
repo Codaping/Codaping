@@ -17,18 +17,16 @@ export const Subject = () => {
   useEffect(() => {
     (async () => {
       const res = await listAll(listRef);
-      const urls = await Promise.all(
+      const items = await Promise.all(
         res.items.map(async (itemRef) => {
-          console.log("items", itemRef.name);
           const url = await getDownloadURL(itemRef);
-          return { url: url, name: itemRef.name };
+          return { url: url, name: itemRef.name, fullPath: itemRef.fullPath };
         })
       );
-      setListURL(urls);
+      setListURL(items);
     })();
   }, []);
 
-  console.log("list", listURL);
   return (
     <Box
       width="100%"
@@ -40,16 +38,8 @@ export const Subject = () => {
         gap: "30px"
       }}
     >
-      {listURL?.map((url, i) => {
-        return (
-          <SubjectCard
-            key={`pdf+${i}`}
-            url={url}
-            onClick={() => {
-              null;
-            }}
-          />
-        );
+      {listURL?.map((items, i) => {
+        return <SubjectCard key={`pdf+${i}`} items={items} />;
       })}
       <AddSubject />
     </Box>

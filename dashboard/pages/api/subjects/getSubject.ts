@@ -1,15 +1,12 @@
-import { collection, getDocs } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { db } from "../../../libraries/firebase";
 
-const getSuject = async (req: NextApiRequest, res: NextApiResponse) => {
-  const resCollec = await getDocs(collection(db, "subjects"));
-  res.send(
-    resCollec.docs.map((doc) => {
-      return doc.data();
-    })
-  );
+const getSubject = async (req: NextApiRequest, res: NextApiResponse) => {
+  const resCollec = await getDoc(doc(db, "subjects", req.body.name));
+
+  if (resCollec.exists()) res.send(resCollec.data());
 };
 
-export default getSuject;
+export default getSubject;

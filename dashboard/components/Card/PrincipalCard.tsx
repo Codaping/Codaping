@@ -5,6 +5,7 @@ import { SectionButton } from "../Buttons/SectionButton";
 import { Card } from ".";
 import { DragAndDropSection } from "./DragAndDropSection";
 import { FormSection } from "./Forms";
+import { TopicOfTheDay } from "./SubjectCard/TopicOfTheDay";
 
 interface PrincipalCardProps {
   title: string;
@@ -52,7 +53,11 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
           <DragAndDropSection description={props.description} />
         ) : wichButton == "button2" && props.display === true ? (
           <FormSection />
-        ) : null}
+        ) : (
+          <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
+            <TopicOfTheDay />
+          </Flex>
+        )}
       </Card>
     </Flex>
   );
