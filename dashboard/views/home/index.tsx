@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Flex } from "rebass";
 
-import { PrincipalCard } from "../../components/Card/PrincipalCard";
+import { PrincipalCard } from "../common/PrincipalCard";
 import { ScanMe } from "./ScanMe";
 
 const Home = () => {
@@ -11,7 +11,12 @@ const Home = () => {
 
   return (
     <Flex>
-      <PrincipalCard title="Topic of the day" description="Drap & Drop your files here" display={false} />
+      <PrincipalCard
+        title="Topic of the day"
+        description="Drap & Drop your files here"
+        displayTop={false}
+        displayRight={false}
+      />
       <ScanMe />
     </Flex>
   );

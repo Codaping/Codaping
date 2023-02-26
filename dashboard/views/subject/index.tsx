@@ -1,11 +1,10 @@
 import axios from "axios";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Text } from "rebass";
+import { Flex } from "rebass";
 
-import { SubjectCard } from "../../components/Card/SubjectCard";
-import { AddSubject } from "../../components/Card/SubjectCard/AddSubject";
 import { storage } from "../../libraries/firebase";
+import { SectionSubjects } from "./SectionSubjects";
 
 export const Subject = () => {
   const listRef = ref(storage, "subjects");
@@ -35,63 +34,30 @@ export const Subject = () => {
 
   return (
     <Flex width="100%" px={80} py={60} flexDirection="column" alignItems="center">
-      <Box width="fit-content">
-        <Text as="p" fontSize={28} color="var(--blueGrey)" my={10}>
-          Participant
-        </Text>
-        <Box
-          key={`pdfParticipants`}
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(5, 280px)",
-            gridAutoRows: 400,
-            justifyContent: "center",
-            gap: "30px"
-          }}
-        >
-          <AddSubject />
-          {listItems?.map((itemsP, i) => {
-            const participants = subjects.filter((v) => {
-              return v.category === "participant";
-            });
-            return (
-              <>
-                {participants.map((participant, subIndex) => {
-                  if (itemsP.name === participant.name)
-                    return <SubjectCard key={`pdfParticipant+${subIndex}`} items={itemsP} />;
-                })}
-              </>
-            );
-          })}
-        </Box>
-      </Box>
-      <Box width="fit-content" mt={30}>
-        <Text as="p" fontSize={28} color="var(--blueGrey)" my={10}>
-          Cobra
-        </Text>
-        <Box
-          key={`pdfCobras`}
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(5, 280px)",
-            justifyContent: "center",
-            gap: "30px"
-          }}
-        >
-          {listItems?.map((itemsC, i) => {
-            const cobras = subjects.filter((v) => {
-              return v.category === "cobra";
-            });
-            return (
-              <>
-                {cobras.map((cobra, subIndex) => {
-                  if (itemsC.name === cobra.name) return <SubjectCard key={`pdfCobra+${subIndex}`} items={itemsC} />;
-                })}
-              </>
-            );
-          })}
-        </Box>
-      </Box>
+      <SectionSubjects
+        listItems={listItems}
+        subjects={subjects.filter((v) => {
+          return v.category === "participant";
+        })}
+        titleSection="Participant"
+      />
+      <SectionSubjects
+        listItems={listItems}
+        subjects={subjects.filter((v) => {
+          return v.category === "cobra";
+        })}
+        titleSection="Cobra"
+      />
+      <SectionSubjects
+        listItems={listItems}
+        subjects={subjects.filter((v) => {
+          return v.category === "camp";
+        })}
+        titleSection="Camp"
+      />
     </Flex>
   );
 };
+
+// faire 3 collection P C Camp
+// check le hovering des Co

@@ -3,15 +3,15 @@ import axios from "axios";
 const setParticipants = async () => {
   await axios.post("http://localhost:3000/api/participants/addParticipant", {
     name: "romanie de meyer",
-    project: "test1"
+    project: "christmas-camp"
   });
   await axios.post("http://localhost:3000/api/participants/addParticipant", {
     name: "romanie de meyer",
-    project: "test2"
+    project: "2048"
   });
   await axios.post("http://localhost:3000/api/participants/addParticipant", {
     name: "clement muth",
-    project: "test1"
+    project: "christmas-camp"
   });
   await axios.post("http://localhost:3000/api/participants/addParticipant", {
     name: "leoni lala",

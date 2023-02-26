@@ -13,8 +13,9 @@ interface SubjectCardProps {
 
 export const SubjectCard = ({ ...props }: SubjectCardProps) => {
   const [isHovering, setIsHovering] = useState(false);
-  const [noteChange, setNoteChange] = useState(false);
+  const [infoChange, setInfoChange] = useState(false);
   const [noteSubject, setNoteSubject] = useState(0);
+  const [difficultySubject, setDifficultySubject] = useState("");
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -30,8 +31,9 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
         name: props.items.name
       });
       setNoteSubject(res.data.note);
+      setDifficultySubject(res.data.difficulty);
     })();
-  }, [noteChange]);
+  }, [infoChange]);
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -69,8 +71,9 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
         <IsHovering
           items={props.items}
           noteSubject={noteSubject}
-          setNoteChange={setNoteChange}
-          noteChange={noteChange}
+          setInfoChange={setInfoChange}
+          infoChange={infoChange}
+          difficultySubject={difficultySubject}
         />
       )}
     </Flex>

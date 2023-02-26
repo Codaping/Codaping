@@ -2,15 +2,15 @@ import { Flex } from "rebass";
 
 import { PrincipalCard } from "../common/PrincipalCard";
 
-export const Search = () => {
+export const AddParticipants = () => {
   return (
     <Flex alignItems="center">
       <PrincipalCard
-        page="search"
-        title="Do a search"
+        page="add"
+        title="Add Participants"
         description="Drap & Drop a file here"
         displayTop={true}
-        displayRight={true}
+        displayRight={false}
       />
       {/* <NameParticipant /> */}
     </Flex>

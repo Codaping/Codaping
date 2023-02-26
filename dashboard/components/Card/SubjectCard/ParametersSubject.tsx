@@ -19,6 +19,13 @@ type FormValues = {
   category: HTMLInputElement;
 };
 
+// type addSubject = {
+//   name: string;
+//   category: string;
+//   note: number;
+//   difficulty: "begginer" | "intermediate" | "advanced";
+// };
+
 export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
   const router = useRouter();
 
@@ -34,7 +41,8 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
       await axios.post("http://localhost:3000/api/subjects/addSubject", {
         name: formattedName,
         category: category,
-        note: 0
+        note: 0,
+        difficulty: ""
       });
       if (props.pdfFile) {
         const storageRef = ref(storage, `subjects/${formattedName}`);
@@ -98,6 +106,10 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
             <Label color="var(--blue)" fontWeight={500}>
               <Radio name="category" id="category" value="cobra" color="var(--blueBeige)" />
               Cobra
+            </Label>
+            <Label color="var(--blue)" fontWeight={500}>
+              <Radio name="category" id="category" value="camp" color="var(--blueBeige)" />
+              Camp
             </Label>
           </Flex>
           <MyButton

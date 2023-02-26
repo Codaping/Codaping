@@ -7,7 +7,8 @@ const addSuject = async (req: NextApiRequest, res: NextApiResponse) => {
   await setDoc(doc(db, "subjects", req.body.name), {
     name: req.body.name,
     category: req.body.category,
-    note: req.body.note
+    note: req.body.note,
+    difficulty: req.body.difficulty
   });
   res.end();
 };

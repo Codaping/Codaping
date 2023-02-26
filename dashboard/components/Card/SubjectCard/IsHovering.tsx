@@ -8,14 +8,16 @@ import React, { useEffect, useState } from "react";
 import { Flex, Text } from "rebass";
 
 import { storage } from "../../../libraries/firebase";
+import { RadioDifficulty } from "./RadioDifficulty";
 
 interface IsHoveringProps {
   items: {
     [x: string]: string;
   };
   noteSubject: number;
-  setNoteChange: React.Dispatch<React.SetStateAction<boolean>>;
-  noteChange: boolean;
+  setInfoChange: React.Dispatch<React.SetStateAction<boolean>>;
+  infoChange: boolean;
+  difficultySubject: string;
 }
 
 export const IsHovering = ({ ...props }: IsHoveringProps) => {
@@ -32,7 +34,7 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
       name: props.items?.name,
       note: newNote
     });
-    props.setNoteChange(!props.noteChange);
+    props.setInfoChange(!props.infoChange);
   };
 
   const handleChangeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,13 +92,10 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
           />
         </Flex>
         <Flex alignItems="center" justifyContent="center" height="100%" flexDirection="column">
-          <Text as="p" py={10} fontSize={28}>
+          <Text as="p" py={10} fontSize={28} fontWeight={500} color="var(--blue)">
             {props.items.name}
           </Text>
-          <Text as="p" py={10} fontSize={20}>
-            Please note
-          </Text>
-          <Flex pb={20}>
+          <Flex pb={10}>
             {[...Array(5)].map((_, index) => (
               <StarIcon
                 key={index}
@@ -109,6 +108,14 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
               />
             ))}
           </Flex>
+          <RadioDifficulty
+            difficultySubject={props.difficultySubject}
+            infoChange={props.infoChange}
+            items={props.items}
+            setInfoChange={props.setInfoChange}
+          />
+        </Flex>
+        <Flex justifyContent="center">
           <DownloadIcon
             onClick={downloadPdf}
             sx={{ color: "var(--blueGrey)", fontSize: 30, ":hover": { cursor: "pointer" } }}

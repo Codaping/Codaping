@@ -17,7 +17,7 @@ export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
           Last Name
         </Label>
       </Flex>
-      <Box height={140} sx={{ overflow: "scroll" }}>
+      <Box height={120} sx={{ overflow: "scroll" }}>
         {[...Array(props.repetition)].map((_, i) => (
           <Flex key={`name ${i}`} sx={{ gap: 2 }}>
             <Input

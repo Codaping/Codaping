@@ -31,6 +31,9 @@ export const Nav = () => {
             <Link href="search/">Search</Link>
           </li>
           <li>
+            <Link href="add/">Add</Link>
+          </li>
+          <li>
             <Link href="/subject">Subject</Link>
           </li>
         </ul>
