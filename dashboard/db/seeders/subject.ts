@@ -15,10 +15,4 @@ const setSubject = async () => {
   });
 };
 
-const getSubject = async () => {
-  const res = await axios.post("http://localhost:3000/api/subjects/getSubject");
-  console.log(res.data);
-};
-
 setSubject();
-getSubject();

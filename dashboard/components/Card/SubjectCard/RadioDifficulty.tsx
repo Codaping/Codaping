@@ -3,24 +3,28 @@ import axios from "axios";
 import React from "react";
 import { Flex, Text } from "rebass";
 
+import type { FileMetadata } from "../../../types/file";
+
 interface RadioDifficultyProps {
-  items: { [x: string]: string };
+  data: FileMetadata;
   setInfoChange: React.Dispatch<React.SetStateAction<boolean>>;
   infoChange: boolean;
+  titleSection: string;
   difficultySubject: string;
 }
 
 export const RadioDifficulty = ({ ...props }: RadioDifficultyProps) => {
-  const handleSetDifficulty = async (newDifficulty: string) => {
+  const handleSetDifficulty = async (e: any) => {
     await axios.post("http://localhost:3000/api/subjects/addDifficulty", {
-      name: props.items?.name,
-      difficulty: newDifficulty
+      name: props.data?.name,
+      category: props.titleSection,
+      difficulty: e.currentTarget.value
     });
     props.setInfoChange(!props.infoChange);
   };
 
   return (
-    <Flex py={10} flexDirection="column" justifyContent="center" alignItems="center">
+    <Flex key={`${props.data.name}+flex`} py={10} flexDirection="column" justifyContent="center" alignItems="center">
       <Text as="p" pb={10} fontSize={20} fontWeight={500} color="var(--blue)">
         Difficulty
       </Text>
@@ -31,9 +35,7 @@ export const RadioDifficulty = ({ ...props }: RadioDifficultyProps) => {
           value="beginner"
           color="var(--blueBeige)"
           fontWeight={600}
-          onClick={(e) => {
-            handleSetDifficulty(e.currentTarget.value);
-          }}
+          onChange={handleSetDifficulty}
           checked={props.difficultySubject === "beginner" ? true : false}
         />
         Beginner
@@ -45,9 +47,7 @@ export const RadioDifficulty = ({ ...props }: RadioDifficultyProps) => {
           value="intermediate"
           color="var(--blueBeige)"
           fontWeight={600}
-          onClick={(e) => {
-            handleSetDifficulty(e.currentTarget.value);
-          }}
+          onChange={handleSetDifficulty}
           checked={props.difficultySubject === "intermediate" ? true : false}
         />
         Intermediate
@@ -59,9 +59,7 @@ export const RadioDifficulty = ({ ...props }: RadioDifficultyProps) => {
           value="advanced"
           color="var(--blueBeige)"
           fontWeight={600}
-          onClick={(e) => {
-            handleSetDifficulty(e.currentTarget.value);
-          }}
+          onChange={handleSetDifficulty}
           checked={props.difficultySubject === "advanced" ? true : false}
         />
         Advanced

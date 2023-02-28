@@ -2,9 +2,9 @@ import { Input, Label, Radio } from "@rebass/forms";
 import axios from "axios";
 import { ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
-import { type FormEvent } from "react";
+import { type FormEvent, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Box, Flex } from "rebass";
+import { Box, Flex, Text } from "rebass";
 
 import { storage } from "../../../libraries/firebase";
 import { MyButton } from "../../Buttons";
@@ -17,17 +17,12 @@ interface ParametersSubjectProps {
 type FormValues = {
   subject: HTMLInputElement;
   category: HTMLInputElement;
+  files: HTMLInputElement;
 };
-
-// type addSubject = {
-//   name: string;
-//   category: string;
-//   note: number;
-//   difficulty: "begginer" | "intermediate" | "advanced";
-// };
 
 export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
   const router = useRouter();
+  const myRef = useRef<HTMLInputElement>();
 
   const handleSubmit = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -45,9 +40,18 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
         difficulty: ""
       });
       if (props.pdfFile) {
-        const storageRef = ref(storage, `subjects/${formattedName}`);
+        const storageRef = ref(storage, `subjects/${category}/${formattedName}/${formattedName}`);
         await uploadBytes(storageRef, props.pdfFile);
         props.setPdfFile(undefined);
+      }
+      const folder: FileList | null = (event.target as unknown as FormValues).files.files;
+      if (folder) {
+        await Promise.all(
+          Array.from(folder).map(async (file) => {
+            const storageRef = ref(storage, `subjects/${category}/${formattedName}/${file.webkitRelativePath}`);
+            await uploadBytes(storageRef, file);
+          })
+        );
         router.reload();
       }
     } catch (error) {
@@ -98,25 +102,43 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
             mt={10}
             required
           />
-          <Flex pt={10}>
-            <Label color="var(--blue)" fontWeight={500}>
+          <Box pt={10} width="100%" sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", columnGap: 10 }}>
+            <Label color="var(--blue)" fontWeight={500} alignItems="center">
               <Radio name="category" id="category" value="participant" color="var(--blueBeige)" />
               Participant
             </Label>
-            <Label color="var(--blue)" fontWeight={500}>
+            <Label color="var(--blue)" fontWeight={500} alignItems="center">
               <Radio name="category" id="category" value="cobra" color="var(--blueBeige)" />
               Cobra
             </Label>
-            <Label color="var(--blue)" fontWeight={500}>
+            <Label color="var(--blue)" fontWeight={500} alignItems="center">
               <Radio name="category" id="category" value="camp" color="var(--blueBeige)" />
               Camp
             </Label>
+          </Box>
+          <Flex mt={10} width="100%" height="fit-content" alignItems="center" sx={{ position: "relative" }}>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              height="fit-content"
+              width="fit-content"
+              sx={{ gap: 10, "& > input": { opacity: 0, position: "absolute" } }}
+            >
+              <Text height={36} textAlign="center" fontSize={30} color="var(--blue)">
+                +
+              </Text>
+              <Text as="p" height={20}>
+                add ressources
+              </Text>
+              {/* @ts-ignore */}
+              <input id="files" name="files" type="file" webkitdirectory="true" multiple height={30} width={40} />
+            </Flex>
           </Flex>
           <MyButton
             type="submit"
             variant="contained"
-            height={35}
-            width={100}
+            height={30}
+            width={90}
             bg="var(--blue)"
             color="var(--lightBeige)"
             fontWeight={500}

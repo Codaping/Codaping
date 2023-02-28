@@ -3,13 +3,10 @@ import { Box, Text } from "rebass";
 
 import { SubjectCard } from "../../components/Card/SubjectCard";
 import { AddSubject } from "../../components/Card/SubjectCard/AddSubject";
+import type { FileMetadata } from "../../types/file";
 
 interface SectionSubjectsProps {
-  listItems:
-    | {
-        [x: string]: string;
-      }[]
-    | undefined;
+  fileMetadata: FileMetadata[] | undefined;
   subjects: {
     name: string;
     note: number;
@@ -19,9 +16,9 @@ interface SectionSubjectsProps {
 }
 
 export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
-  return props.subjects.length ? (
+  return props.subjects.length || props.titleSection === "participant" ? (
     <Box width="fit-content">
-      <Text as="p" fontSize={28} color="var(--blueGrey)" my={10}>
+      <Text as="p" fontSize={28} color="var(--blueGrey)" my={10} sx={{ textTransform: "capitalize" }}>
         {props.titleSection}
       </Text>
       <Box
@@ -34,14 +31,14 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
           gap: "30px"
         }}
       >
-        {props.titleSection === "Participant" ? <AddSubject /> : null}
-        {props.listItems?.map((items, i) => {
+        {props.titleSection === "participant" ? <AddSubject /> : null}
+        {props.fileMetadata?.map((data, i) => {
           return (
-            <>
+            <Box key={`pdf${props.titleSection}+${i}`}>
               {props.subjects.some(({ name }) => {
-                return items.name === name;
-              }) && <SubjectCard key={`pdf${props.titleSection}+${i}`} items={items} />}
-            </>
+                return data.name === name;
+              }) && <SubjectCard data={data} titleSection={props.titleSection} />}
+            </Box>
           );
         })}
       </Box>

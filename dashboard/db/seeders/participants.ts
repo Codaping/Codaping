@@ -17,6 +17,14 @@ const setParticipants = async () => {
     name: "leoni lala",
     project: "test3"
   });
+  await axios.post("http://localhost:3000/api/participants/addParticipant", {
+    name: "leoni lala",
+    project: "christmas-camp"
+  });
+  await axios.post("http://localhost:3000/api/participants/addParticipant", {
+    name: "leoni lala",
+    project: "test1"
+  });
 };
 
 setParticipants();

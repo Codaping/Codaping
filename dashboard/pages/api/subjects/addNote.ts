@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../libraries/firebase";
 
 const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
-  const subjectRef = doc(db, "subjects", req.body.name);
+  const subjectRef = doc(db, req.body.category, req.body.name);
   await updateDoc(subjectRef, {
     note: req.body.note
   });

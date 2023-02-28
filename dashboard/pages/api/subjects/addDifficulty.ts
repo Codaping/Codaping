@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../libraries/firebase";
 
 const addDifficulty = async (req: NextApiRequest, res: NextApiResponse) => {
-  const subjectRef = doc(db, "subjects", req.body.name);
+  const subjectRef = doc(db, req.body.category, req.body.name);
   await updateDoc(subjectRef, {
     difficulty: req.body.difficulty
   });

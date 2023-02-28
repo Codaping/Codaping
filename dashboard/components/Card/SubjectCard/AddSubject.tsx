@@ -1,12 +1,11 @@
 import { Input } from "@rebass/forms";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Flex, Text } from "rebass";
 
 import { ParametersSubject } from "./ParametersSubject";
 
 export const AddSubject = ({ ...props }) => {
   const [pdfFile, setPdfFile] = useState<File | undefined>(undefined);
-  const myRef = useRef<HTMLInputElement>();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPdfFile(event.target.files?.[0]);
@@ -37,7 +36,6 @@ export const AddSubject = ({ ...props }) => {
         width={280}
         onChange={handleFileUpload}
         sx={{ position: "absolute", top: 0, opacity: 0 }}
-        ref={myRef}
       />
     </Flex>
   ) : (

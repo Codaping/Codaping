@@ -5,7 +5,7 @@ import { db } from "../../../libraries/firebase";
 
 const suggestTopic = async (req: NextApiRequest, res: NextApiResponse) => {
   const subjectsCollec = await getDocs(collection(db, "subjects"));
-  const partiCollec = await getDocs(collection(db, "participants"));
+  const partiCollec = await getDocs(collection(db, "participant"));
 
   const subjects = partiCollec.docs.flatMap((namedb) => {
     const matchedNames = req.body.names.filter((name: string) => namedb.data().name === name);
