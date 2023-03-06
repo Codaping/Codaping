@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../../libraries/firebase";
 
 const getSubjectCamp = async (req: NextApiRequest, res: NextApiResponse) => {
-  const resCollec = await getDoc(doc(db, "camp", req.body.name));
+  const resCollec = await getDoc(doc(db, "subjectsCamp", req.body.name));
 
   if (resCollec.exists()) res.send(resCollec.data());
 };

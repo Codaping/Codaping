@@ -28,13 +28,13 @@ export const Nav = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="search/">Search</Link>
+            <Link href="/search">Search</Link>
           </li>
           <li>
-            <Link href="add/">Add</Link>
+            <Link href="/add">Add</Link>
           </li>
           <li>
-            <Link href="/subject">Subject</Link>
+            <Link href="/subjects">Subjects</Link>
           </li>
         </ul>
       </Flex>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Flex } from "rebass";
 
+import type { Subject } from "../../../types/subject";
 import { MyButton } from "../../Buttons";
 import { handleSubmit } from "./constant";
 import { Difficulty } from "./Difficulty";
@@ -10,6 +11,7 @@ import { SubjectName } from "./SubjectName";
 interface FormSectionProps {
   wichButtonRight: string;
   page: string | null;
+  onSuggestedSubject?: (suggestedSubject: Subject) => void;
 }
 
 export const FormSection = ({ ...props }: FormSectionProps) => {
@@ -21,7 +23,7 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
       width="100%"
       p={20}
       onSubmit={(e) => {
-        handleSubmit(e, props.wichButtonRight, props.page);
+        handleSubmit(e, props.wichButtonRight, props.page, props.onSuggestedSubject);
       }}
     >
       {props.wichButtonRight === "button1" ? <SubjectName /> : <Difficulty />}

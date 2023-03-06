@@ -12,7 +12,6 @@ export const AddParticipants = () => {
         displayTop={true}
         displayRight={false}
       />
-      {/* <NameParticipant /> */}
     </Flex>
   );
 };

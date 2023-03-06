@@ -7,7 +7,7 @@ export const SubjectName = () => {
   const [subjects, setSubjects] = useState<{ name: string }[]>([]);
   useEffect(() => {
     (async () => {
-      const res = await axios.post("http://localhost:3000/api/subjects/getSubjects");
+      const res = await axios.post("http://localhost:3000/api/subjects/participant/getSubjectsParticipant");
       setSubjects(res.data);
     })();
   }, []);

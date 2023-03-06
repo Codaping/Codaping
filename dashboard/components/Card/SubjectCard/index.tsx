@@ -9,6 +9,8 @@ import { IsHovering } from "./IsHovering";
 interface SubjectCardProps {
   data: FileMetadata;
   titleSection: string;
+  onCheck: () => void;
+  checked: boolean;
 }
 
 export const SubjectCard = ({ ...props }: SubjectCardProps) => {
@@ -29,7 +31,7 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
   useEffect(() => {
     (async () => {
       const res = await axios.post("http://localhost:3000/api/subjects/getSubject", {
-        name: props.data.name,
+        name: props.data.name.replace(".pdf", ""),
         category: props.titleSection
       });
       setNoteSubject(res.data.note);
@@ -49,8 +51,7 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       sx={{
-        boxShadow:
-          localStorage.getItem("url") === props.data.url ? "2px 2px 8px var(--blue)" : "2px 2px 8px var(--blueBeige)",
+        boxShadow: props.checked ? "2px 2px 8px var(--blue)" : "2px 2px 8px var(--blueBeige)",
         position: "relative",
         ":hover": { transform: "scale(1.02)", transitionDuration: "100ms", cursor: "pointer" }
       }}
@@ -77,6 +78,8 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
           setInfoChange={setInfoChange}
           infoChange={infoChange}
           difficultySubject={difficultySubject}
+          onCheck={props.onCheck}
+          checked={props.checked}
         />
       )}
     </Flex>

@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../libraries/firebase";
 
 const findParticipants = async (req: NextApiRequest, res: NextApiResponse) => {
-  const resCollec = await getDocs(collection(db, "participant"));
+  const resCollec = await getDocs(collection(db, "participants"));
   let tab: any[] = [];
   tab = resCollec.docs.map((doc) => {
     return doc.data();

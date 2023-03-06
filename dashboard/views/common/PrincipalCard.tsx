@@ -4,7 +4,8 @@ import { Flex, Text } from "rebass";
 import { Card } from "../../components/Card";
 import { DragAndDropSection } from "../../components/Card/DragAndDropSection";
 import { FormSection } from "../../components/Card/Forms";
-import { TopicOfTheDay } from "../../components/Card/SubjectCard/TopicOfTheDay";
+import type { Subject } from "../../types/subject";
+import { TopicOfTheDay } from "../home/TopicOfTheDay";
 import { RightButtons } from "../search/Buttons/RightButtons";
 import { TopButtons } from "./TopButtons";
 
@@ -14,6 +15,7 @@ interface PrincipalCardProps {
   description: string;
   displayTop: boolean;
   displayRight: boolean;
+  onSuggestedSubject?: (suggestedSubject: Subject) => void;
 }
 
 export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
@@ -38,7 +40,11 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
           {wichButtonTop == "button1" && props.displayTop === true ? (
             <DragAndDropSection description={props.description} />
           ) : wichButtonTop == "button2" && props.displayTop === true ? (
-            <FormSection wichButtonRight={wichButtonRight} page={props.page ?? null} />
+            <FormSection
+              wichButtonRight={wichButtonRight}
+              page={props.page ?? null}
+              onSuggestedSubject={props.onSuggestedSubject}
+            />
           ) : (
             <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
               <TopicOfTheDay />

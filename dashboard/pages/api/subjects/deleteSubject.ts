@@ -4,7 +4,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../libraries/firebase";
 
 const deleteSubject = async (req: NextApiRequest, res: NextApiResponse) => {
-  await deleteDoc(doc(db, req.body.category, req.body.name));
+  const collection =
+    req.body.category === "participant"
+      ? "subjectsParticipant"
+      : req.body.category === "camp"
+      ? "subjectsCamp"
+      : "subjectsCobra";
+  await deleteDoc(doc(db, collection, req.body.name));
   res.end();
 };
 
