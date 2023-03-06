@@ -4,6 +4,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { Box, Flex } from "rebass";
 
 import type { FileMetadata } from "../../../types/file";
+import type { Subject } from "../../../types/subject";
 import { IsHovering } from "./IsHovering";
 
 interface SubjectCardProps {
@@ -11,6 +12,8 @@ interface SubjectCardProps {
   titleSection: string;
   onCheck: () => void;
   checked: boolean;
+  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
+  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
 }
 
 export const SubjectCard = ({ ...props }: SubjectCardProps) => {
@@ -43,8 +46,9 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
 
   return (
     <Flex
-      height={400}
-      width={280}
+      height={"100%"}
+      width={"100%"}
+      maxWidth="350px"
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
@@ -57,13 +61,13 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
       }}
     >
       <Box
-        height={400}
-        width={280}
+        height={"100%"}
+        width={"100%"}
         sx={{
           position: "absolute",
           zIndex: -1,
           left: 0,
-          "& > div > div > canvas": { height: "400px !important", width: "280px !important" }
+          "& > div > div > canvas": { height: "400px !important", width: "100% !important" }
         }}
       >
         <Document file={props.data.url}>
@@ -80,6 +84,8 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
           difficultySubject={difficultySubject}
           onCheck={props.onCheck}
           checked={props.checked}
+          updateSubject={props.updateSubject}
+          updatefileMetadata={props.updatefileMetadata}
         />
       )}
     </Flex>

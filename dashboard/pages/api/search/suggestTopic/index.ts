@@ -62,7 +62,7 @@ const suggestTopic = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!subjectNotDo!.choiceDate) return subjectNotDo;
     });
 
-    if (filteredNoChoiceDate.length) return res.send(suggestionWithNoChoiceDate(filteredNoChoiceDate));
+    if (filteredNoChoiceDate.length) res.send(await suggestionWithNoChoiceDate(filteredNoChoiceDate));
     else {
       const oldestSuggestionIndex = findOldestSuggestion(notDoneProjects);
 

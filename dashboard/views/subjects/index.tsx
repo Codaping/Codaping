@@ -10,9 +10,10 @@ export const Subject = () => {
   const [subjectsParticipant, setSubjectsParticipant] = useState<SubjectT[]>([]);
   const [subjectsCobra, setSubjectsCobra] = useState<SubjectT[]>([]);
   const [subjectsCamp, setSubjectsCamp] = useState<SubjectT[]>([]);
-  const [fileMetadataPartipant] = useFileMetadata("subjects/participant");
-  const [fileMetadataCobra] = useFileMetadata("subjects/cobra");
-  const [fileMetadataCamp] = useFileMetadata("subjects/camp");
+  const [triggerRefreshData, setTriggerRefreshData] = useState(false);
+  const [fileMetadataPartipant, setFileMetadataParticipant] = useFileMetadata("subjects/participant");
+  const [fileMetadataCobra, setFileMetadataCobra] = useFileMetadata("subjects/cobra");
+  const [fileMetadataCamp, setFileMetadataCamp] = useFileMetadata("subjects/camp");
 
   useEffect(() => {
     (async () => {
@@ -30,18 +31,29 @@ export const Subject = () => {
   }, []);
 
   return (
-    <Flex width="100%" px={80} py={60} flexDirection="column" alignItems="center">
-      {subjectsParticipant?.length && (
-        <SectionSubjects
-          fileMetadata={fileMetadataPartipant}
-          subjects={subjectsParticipant}
-          updateSubject={setSubjectsParticipant}
-          titleSection="participant"
-        />
-      )}
-      {/* <SectionSubjects fileMetadata={fileMetadataCobra} subjects={subjectsCobra} titleSection="cobra" />
-      <SectionSubjects fileMetadata={fileMetadataCamp} subjects={subjectsCamp} titleSection="camp" /> */}
+    <Flex width="100%" px={[20, 50, 80]} py={60} flexDirection="column" alignItems="center">
+      <SectionSubjects
+        fileMetadata={fileMetadataPartipant}
+        subjects={subjectsParticipant}
+        updateSubject={setSubjectsParticipant}
+        updatefileMetadata={setFileMetadataParticipant}
+        titleSection="participant"
+      />
+      <SectionSubjects
+        fileMetadata={fileMetadataCobra}
+        subjects={subjectsCobra}
+        updateSubject={setSubjectsCobra}
+        updatefileMetadata={setFileMetadataCobra}
+        titleSection="cobra"
+      />
+      <SectionSubjects
+        fileMetadata={fileMetadataCamp}
+        subjects={subjectsCamp}
+        updateSubject={setSubjectsCamp}
+        updatefileMetadata={setFileMetadataCamp}
+        titleSection="camp"
+      />
     </Flex>
   );
 };
-// check le hovering des Co
+// check le hovering des Co des co ?

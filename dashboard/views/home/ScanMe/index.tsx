@@ -8,8 +8,8 @@ const rancho = Rancho({ weight: "400", style: "normal", subsets: ["latin"] });
 
 export const ScanMe = () => {
   return (
-    <Flex height="calc(100vh - 80px)" alignItems="center" marginX={200}>
-      <Card widthCard={609} heightCard={437} bg="var(--beige)">
+    <Flex alignItems="center">
+      <Card widthCard={609} heightCard="100%" minHeight="437px" bg="var(--beige)">
         <Flex width="100%" justifyContent="center" sx={{ position: "relative" }}>
           <Flex
             width={10}
@@ -27,7 +27,11 @@ export const ScanMe = () => {
             sx={{ borderRadius: "50%", right: 0, position: "absolute" }}
           ></Flex>
         </Flex>
-        <Flex marginTop={40} sx={{ gap: 100 }}>
+        <Flex
+          flexDirection={["column", "row"]}
+          marginTop={40}
+          sx={{ gap: 100, "@media (max-width: 640px)": { gap: 30 } }}
+        >
           <QrCode srcImg="/DiscordQR.webp" font={rancho.className}>
             Discord
           </QrCode>

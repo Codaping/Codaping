@@ -1,17 +1,22 @@
+import Loader from "@mui/material/CircularProgress";
 import { Input, Label, Radio } from "@rebass/forms";
 import axios from "axios";
-import { ref, uploadBytes } from "firebase/storage";
-import { useRouter } from "next/router";
-import { type FormEvent, useRef } from "react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import type { FormEvent } from "react";
+import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Box, Flex, Text } from "rebass";
 
 import { MyButton } from "../../components/Buttons";
 import { storage } from "../../libraries/firebase";
+import type { FileMetadata } from "../../types/file";
+import type { Category, Subject } from "../../types/subject";
 
 interface ParametersSubjectProps {
   pdfFile: File | undefined;
   setPdfFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
+  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
 }
 
 type FormValues = {
@@ -20,20 +25,20 @@ type FormValues = {
   files: HTMLInputElement;
 };
 
-export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
-  const router = useRouter();
-  const myRef = useRef<HTMLInputElement>();
+export const ParametersSubject = ({ updateSubject, updatefileMetadata, ...props }: ParametersSubjectProps) => {
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLDivElement>) => {
     event.preventDefault();
-    console.log((event.target as unknown as FormValues).subject.value);
+    setLoading(true);
+
     try {
       const formattedName = (event.target as unknown as FormValues).subject.value
         .toLowerCase()
         .replace(/\s+/g, " ")
         .trim()
         .replaceAll(" ", "-");
-      const category = (event.target as unknown as FormValues).category.value;
+      const category = (event.target as unknown as FormValues).category.value as Category;
       await axios.post("http://localhost:3000/api/subjects/addSubject", {
         name: formattedName,
         category: category,
@@ -55,9 +60,33 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
           })
         );
       }
-      // router.reload();
+
+      // get added pdf...
+      const url = await getDownloadURL(ref(storage, `subjects/${category}/${formattedName}/${formattedName}.pdf`));
+
+      updatefileMetadata((fileMetadata) => [
+        ...fileMetadata!.filter((file) => file.name !== formattedName + ".pdf"),
+        {
+          url,
+          name: formattedName + ".pdf",
+          subFolderPath: `subjects/${category}/${formattedName}`,
+          fullPath: `subjects/${category}/${formattedName}/${formattedName}.pdf`
+        }
+      ]);
+      updateSubject((subjects) => [
+        ...subjects.filter((sub) => sub.name !== formattedName),
+        {
+          name: formattedName,
+          category: category,
+          note: 0,
+          difficulty: "" as any,
+          isTopicOfTheDay: false
+        }
+      ]);
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -68,7 +97,8 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
       as="form"
       id="subjectForm"
       height={400}
-      width={280}
+      maxWidth="350px"
+      width="100%"
       onSubmit={handleSubmit}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
@@ -77,13 +107,13 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
     >
       <Box
         height={400}
-        width={280}
+        width="100%"
         sx={{
           position: "absolute",
           zIndex: -1,
           left: 0,
           filter: "blur(0px)",
-          "& > div > div > canvas": { height: "400px !important", width: "280px !important" }
+          "& > div > div > canvas": { height: "400px !important", width: "100% !important" }
         }}
       >
         <Document file={props.pdfFile}>
@@ -145,9 +175,10 @@ export const ParametersSubject = ({ ...props }: ParametersSubjectProps) => {
             color="var(--lightBeige)"
             fontWeight={500}
             mt={20}
+            disabled={loading}
             sx={{ borderColor: "var(--blue)" }}
           >
-            Submit
+            {loading ? <Loader size={20} sx={{ color: "var(--beige)" }} /> : "Submit"}
           </MyButton>
         </Box>
       </Flex>

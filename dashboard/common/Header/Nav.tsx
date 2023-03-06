@@ -1,13 +1,24 @@
 import Link from "next/link";
-import { Flex } from "rebass";
+import { Box, Flex } from "rebass";
 
 export const Nav = () => {
   return (
-    <nav>
+    <Box
+      as="nav"
+      display="none"
+      sx={{
+        "@media (min-width: 700px)": {
+          display: "flex"
+        }
+      }}
+    >
       <Flex
+        width="400px"
         paddingLeft={20}
         sx={{
           "& > ul > li > a": {
+            display: "block",
+            transition: ".2s",
             textDecoration: "none",
             color: "var(--blue)",
             fontSize: 20
@@ -15,11 +26,16 @@ export const Nav = () => {
           "& > ul > li > a:hover": {
             transform: "scale(1.1)"
           },
+          "& > ul > li > a:active": {
+            color: "var(--blueBeige)"
+          },
           "& > ul": {
             listStyle: "none",
             paddingLeft: 0,
             display: "flex",
-            gap: 50
+            width: "100%",
+            mr: "30px",
+            justifyContent: "space-between"
           }
         }}
       >
@@ -38,6 +54,6 @@ export const Nav = () => {
           </li>
         </ul>
       </Flex>
-    </nav>
+    </Box>
   );
 };

@@ -9,6 +9,7 @@ import { Flex, Text } from "rebass";
 
 import { storage } from "../../../libraries/firebase";
 import type { FileMetadata } from "../../../types/file";
+import type { Subject } from "../../../types/subject";
 import { DownloadPdf } from "../../../views/common/DownloadPdf";
 import { RadioDifficulty } from "./RadioDifficulty";
 
@@ -21,9 +22,11 @@ interface IsHoveringProps {
   difficultySubject: string;
   onCheck: () => void;
   checked: boolean;
+  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
+  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
 }
 
-export const IsHovering = ({ ...props }: IsHoveringProps) => {
+export const IsHovering = ({ updateSubject, updatefileMetadata, ...props }: IsHoveringProps) => {
   const router = useRouter();
 
   const handleDeleteFile = async (path: string) => {
@@ -33,24 +36,29 @@ export const IsHovering = ({ ...props }: IsHoveringProps) => {
   const handleDeleteFolder = async (subFolderPath: string) => {
     const desertRef = ref(storage, subFolderPath);
     const files = await listAll(desertRef);
-    files.items.forEach(async (item) => {
-      await handleDeleteFile(item.fullPath);
-    });
-    files.prefixes.forEach(async (prefixe) => {
-      await handleDeleteFolder(prefixe.fullPath);
-    });
+    await Promise.all(
+      files.items.map(async (item) => {
+        await handleDeleteFile(item.fullPath);
+      })
+    );
+    await Promise.all(
+      files.prefixes.map(async (prefixe) => {
+        await handleDeleteFolder(prefixe.fullPath);
+      })
+    );
     await axios.delete("http://localhost:3000/api/subjects/deleteSubject", {
       data: {
-        name: props.data.name,
+        name: props.data.name.replace(".pdf", ""),
         category: props.titleSection
       }
     });
-    router.reload();
+    updateSubject((subjects) => subjects.filter((sub) => sub.name !== props.data.name.replace(".pdf", "")));
+    updatefileMetadata((fileMetadata) => fileMetadata!.filter((file) => file.name !== props.data.name));
   };
 
   const handleSetNoteChange = async (newNote: number) => {
     await axios.post("http://localhost:3000/api/subjects/addNote", {
-      name: props.data?.name,
+      name: props.data?.name.replace(".pdf", ""),
       category: props.titleSection,
       note: newNote
     });

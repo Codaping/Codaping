@@ -1,3 +1,4 @@
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Flex, Text } from "rebass";
 
@@ -10,11 +11,12 @@ const Header = () => {
 
   return (
     <Flex
+      as="header"
       height={80}
       width="100%"
       justifyContent="space-between"
       alignItems="center"
-      px={50}
+      px={[30, 30, 50]}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
         "& > div > ul > li > a": {
@@ -23,10 +25,13 @@ const Header = () => {
       }}
     >
       <Flex alignItems="center" sx={{ "& > ul > li": { listStyle: "none" } }}>
+        <MenuRoundedIcon
+          sx={{ mr: 2, fill: "var(--blueBeige)", cursor: "pointer", "@media (min-width: 740px)": { display: "none" } }}
+        />
         <Brand />
         <Nav />
       </Flex>
-      <Flex alignItems="center">
+      <Flex alignItems="center" flex="0 0 auto">
         <Text mr={4}>{data?.user?.name}</Text>
         <MyButton
           variant="outlined"

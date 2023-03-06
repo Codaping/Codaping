@@ -1,23 +1,25 @@
 import type { ReactNode } from "react";
+import type { FlexProps } from "rebass";
 import { Flex } from "rebass";
 
-interface CardProps {
+interface CardProps extends FlexProps {
   widthCard: number;
-  heightCard: number;
+  heightCard: number | string;
   bg: string;
   children?: ReactNode;
 }
 
-export const Card = ({ ...props }: CardProps) => {
+export const Card = ({ widthCard, heightCard, bg, ...props }: CardProps) => {
   return (
     <Flex
-      width={props.widthCard}
-      height={props.heightCard}
-      backgroundColor={props.bg}
+      width={widthCard}
+      height={heightCard}
+      backgroundColor={bg}
       padding={20}
       flexDirection="column"
       alignItems="center"
-      sx={{ border: "1px solid var(--blue)" }}
+      {...props}
+      sx={{ border: "1px solid var(--blue)", ...props.sx }}
     >
       {props.children}
     </Flex>

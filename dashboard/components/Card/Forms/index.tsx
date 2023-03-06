@@ -1,3 +1,4 @@
+import Loader from "@mui/material/CircularProgress";
 import { useState } from "react";
 import { Box, Flex } from "rebass";
 
@@ -16,14 +17,28 @@ interface FormSectionProps {
 
 export const FormSection = ({ ...props }: FormSectionProps) => {
   const [number, setNumber] = useState(2);
+  const [loading, setLoading] = useState(false);
 
   return (
     <Box
       as="form"
       width="100%"
       p={20}
-      onSubmit={(e) => {
-        handleSubmit(e, props.wichButtonRight, props.page, props.onSuggestedSubject);
+      sx={{
+        animation: "fadeIn .5s",
+        "@keyframes fadeIn": {
+          from: {
+            opacity: 0
+          },
+          to: {
+            opacity: 1
+          }
+        }
+      }}
+      onSubmit={async (e) => {
+        setLoading(true);
+        await handleSubmit(e, props.wichButtonRight, props.page, props.onSuggestedSubject);
+        setLoading(false);
       }}
     >
       {props.wichButtonRight === "button1" ? <SubjectName /> : <Difficulty />}
@@ -52,8 +67,9 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
             fontWeight={600}
             width={130}
             sx={{ borderColor: "var(--beige)" }}
+            disabled={loading}
           >
-            Search
+            {loading ? <Loader size={20} sx={{ color: "black" }} /> : "Search"}
           </MyButton>
         ) : props.page === "add" ? (
           <MyButton

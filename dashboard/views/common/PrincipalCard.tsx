@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { Flex, Text } from "rebass";
 
@@ -16,6 +17,9 @@ interface PrincipalCardProps {
   displayTop: boolean;
   displayRight: boolean;
   onSuggestedSubject?: (suggestedSubject: Subject) => void;
+  url?: string | ArrayBuffer;
+  setUrl?: Dispatch<SetStateAction<string | ArrayBuffer>>;
+  handleParse?: (arr: string[]) => void;
 }
 
 export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
@@ -30,7 +34,10 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        sx={{ position: "relative" }}
+        id="test"
+        sx={{
+          position: "relative"
+        }}
       >
         {props.displayTop ? <TopButtons wichButton={wichButtonTop} setWichButton={setWichButtonTop} /> : null}
         <Card widthCard={450} heightCard={437} bg="var(--blueBeige)">
@@ -38,7 +45,12 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
             {props.title}
           </Text>
           {wichButtonTop == "button1" && props.displayTop === true ? (
-            <DragAndDropSection description={props.description} />
+            <DragAndDropSection
+              description={props.description}
+              url={props.url}
+              setUrl={props.setUrl}
+              handleParse={props.handleParse}
+            />
           ) : wichButtonTop == "button2" && props.displayTop === true ? (
             <FormSection
               wichButtonRight={wichButtonRight}

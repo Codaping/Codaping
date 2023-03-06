@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Box, Text } from "rebass";
+import { Box, Flex, Text } from "rebass";
 
 import { SubjectCard } from "../../components/Card/SubjectCard";
 import type { FileMetadata } from "../../types/file";
@@ -13,6 +13,7 @@ interface SectionSubjectsProps {
   subjects: Subject[];
   titleSection: string;
   updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
+  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
 }
 
 export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
@@ -62,7 +63,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
   }, [props.subjects]);
 
   return props.subjects.length || props.titleSection === "participant" ? (
-    <Box width="fit-content">
+    <Flex flexDirection="column" width="100%">
       <Text as="p" fontSize={28} color="var(--blueGrey)" my={10} sx={{ textTransform: "capitalize" }}>
         {props.titleSection}
       </Text>
@@ -70,13 +71,14 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
         key={`pdf${props.titleSection}`}
         sx={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 280px)",
+          gridTemplateColumns: `repeat(auto-fill, minmax(245px, 1fr))`,
           gridAutoRows: 400,
-          justifyContent: "center",
           gap: "30px"
         }}
       >
-        {props.titleSection === "participant" ? <AddSubject /> : null}
+        {props.titleSection === "participant" ? (
+          <AddSubject updateSubject={props.updateSubject} updatefileMetadata={props.updatefileMetadata} />
+        ) : null}
         {props.fileMetadata?.map((data, i) => {
           return (
             <Box key={`pdf${props.titleSection}+${i}`}>
@@ -90,12 +92,14 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
                   onCheck={() =>
                     onCheck(props.subjects.find((subject) => data.name.replace(".pdf", "") === subject.name)!)
                   }
+                  updateSubject={props.updateSubject}
+                  updatefileMetadata={props.updatefileMetadata}
                 />
               )}
             </Box>
           );
         })}
       </Box>
-    </Box>
+    </Flex>
   ) : null;
 };

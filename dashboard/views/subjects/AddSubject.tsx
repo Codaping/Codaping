@@ -2,9 +2,17 @@ import { Input } from "@rebass/forms";
 import React, { useState } from "react";
 import { Flex, Text } from "rebass";
 
+import type { FileMetadata } from "../../types/file";
+import type { Subject } from "../../types/subject";
 import { ParametersSubject } from "./ParametersSubject";
 
-export const AddSubject = ({ ...props }) => {
+interface AddSubjectProps {
+  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
+  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  onClick?: () => void;
+}
+
+export const AddSubject = ({ updateSubject, updatefileMetadata, onClick, ...props }: AddSubjectProps) => {
   const [pdfFile, setPdfFile] = useState<File | undefined>(undefined);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,11 +22,12 @@ export const AddSubject = ({ ...props }) => {
   return !pdfFile ? (
     <Flex
       height={400}
-      width={280}
+      width="100%"
+      maxWidth="350px"
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      onClick={props.onClick}
+      onClick={onClick}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
         position: "relative",
@@ -35,14 +44,17 @@ export const AddSubject = ({ ...props }) => {
         height={400}
         width={280}
         onChange={handleFileUpload}
-        sx={{ position: "absolute", top: 0, opacity: 0 }}
+        sx={{ position: "absolute", top: 0, opacity: 0, cursor: "pointer" }}
       />
     </Flex>
   ) : (
     <>
-      <ParametersSubject pdfFile={pdfFile} setPdfFile={setPdfFile} />
+      <ParametersSubject
+        pdfFile={pdfFile}
+        setPdfFile={setPdfFile}
+        updateSubject={updateSubject}
+        updatefileMetadata={updatefileMetadata}
+      />
     </>
   );
 };
-
-//

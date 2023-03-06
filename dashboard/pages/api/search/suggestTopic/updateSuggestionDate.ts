@@ -13,5 +13,5 @@ export const updateSuggestionDate = async (list: any[], random = true) => {
     suggestionDate: moment().format("DD MM YYYY")
   });
 
-  return list[randomSubjectOccurence].name;
+  return list[randomSubjectOccurence];
 };
