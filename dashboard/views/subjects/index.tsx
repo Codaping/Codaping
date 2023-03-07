@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Flex } from "rebass";
 
 import { useFileMetadata } from "../../hooks/useFileMetadata";
+import type { FileMetadata } from "../../types/file";
 import type { Subject as SubjectT } from "../../types/subject";
 import { SectionSubjects } from "./SectionSubjects";
 
@@ -35,25 +36,44 @@ export const Subject = () => {
       <SectionSubjects
         fileMetadata={fileMetadataPartipant}
         subjects={subjectsParticipant}
-        updateSubject={setSubjectsParticipant}
-        updatefileMetadata={setFileMetadataParticipant}
+        updateSubject={(category: any, v: (s: any) => any) =>
+          category === "participant"
+            ? setSubjectsParticipant((s) => v(s))
+            : category === "camp"
+            ? setSubjectsCamp((s) => v(s))
+            : setSubjectsCobra((s) => v(s))
+        }
+        updatefileMetadata={(category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) =>
+          category === "participant"
+            ? setFileMetadataParticipant((s) => v(s))
+            : category === "camp"
+            ? setFileMetadataCamp((s) => v(s))
+            : setFileMetadataCobra((s) => v(s))
+        }
         titleSection="participant"
       />
-      <SectionSubjects
-        fileMetadata={fileMetadataCobra}
-        subjects={subjectsCobra}
-        updateSubject={setSubjectsCobra}
-        updatefileMetadata={setFileMetadataCobra}
-        titleSection="cobra"
-      />
-      <SectionSubjects
-        fileMetadata={fileMetadataCamp}
-        subjects={subjectsCamp}
-        updateSubject={setSubjectsCamp}
-        updatefileMetadata={setFileMetadataCamp}
-        titleSection="camp"
-      />
+      {subjectsCobra?.length ? (
+        <SectionSubjects
+          fileMetadata={fileMetadataCobra}
+          subjects={subjectsCobra}
+          updateSubject={(_: any, v: (s: any) => any) => setSubjectsCobra((s) => v(s))}
+          updatefileMetadata={(_: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) =>
+            setFileMetadataCobra((s) => v(s))
+          }
+          titleSection="cobra"
+        />
+      ) : null}
+      {subjectsCamp?.length ? (
+        <SectionSubjects
+          fileMetadata={fileMetadataCamp}
+          subjects={subjectsCamp}
+          updateSubject={(_: any, v: (s: any) => any) => setSubjectsCamp((s) => v(s))}
+          updatefileMetadata={(_: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) =>
+            setFileMetadataCamp((s) => v(s))
+          }
+          titleSection="camp"
+        />
+      ) : null}
     </Flex>
   );
 };
-// check le hovering des Co des co ?

@@ -13,11 +13,13 @@ interface RightButtonProps {
 export const RightButton = ({ pressed, ...props }: ButtonProps & RightButtonProps) => {
   return (
     <Button
-      width={140}
+      width={[120, 140]}
       height={40}
       bg="var(--blueBeige)"
+      fontSize={["14px", "16px"]}
       color={pressed ? "var(--blue)" : "var(--lightBeige)"}
       className={rajdhani.className}
+      p={["4px 8px", "8px 16px"]}
       {...props}
       sx={{
         borderRadius: 0,

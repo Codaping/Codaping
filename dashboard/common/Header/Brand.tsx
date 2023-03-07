@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Text } from "rebass";
+import { Box, Text } from "rebass";
 
 export const Brand = () => {
   return (
-    <ul>
+    <Box as="ul" display="none" sx={{ "@media (min-width: 700px)": { display: "block" } }}>
       <li>
         <Link href="/">
           <Text
@@ -19,6 +19,6 @@ export const Brand = () => {
           </Text>
         </Link>
       </li>
-    </ul>
+    </Box>
   );
 };

@@ -12,8 +12,8 @@ interface SubjectCardProps {
   titleSection: string;
   onCheck: () => void;
   checked: boolean;
-  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
-  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  updateSubject: (category: any, v: (s: Subject[]) => Subject[]) => void;
+  updatefileMetadata: (category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) => void;
 }
 
 export const SubjectCard = ({ ...props }: SubjectCardProps) => {
@@ -57,7 +57,10 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
       sx={{
         boxShadow: props.checked ? "2px 2px 8px var(--blue)" : "2px 2px 8px var(--blueBeige)",
         position: "relative",
-        ":hover": { transform: "scale(1.02)", transitionDuration: "100ms", cursor: "pointer" }
+        ":hover": { transform: "scale(1.02)", transitionDuration: "100ms", cursor: "pointer" },
+        "@media (max-width: 560px)": {
+          width: 300
+        }
       }}
     >
       <Box

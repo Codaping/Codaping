@@ -1,13 +1,16 @@
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useState } from "react";
 import { Flex, Text } from "rebass";
 
 import { MyButton } from "../../components/Buttons";
 import { Brand } from "./Brand";
+import { Menu } from "./Menu";
 import { Nav } from "./Nav";
 
 const Header = () => {
   const { data } = useSession();
+  const [openMenu, setOpenMenu] = useState(false);
 
   return (
     <Flex
@@ -16,7 +19,7 @@ const Header = () => {
       width="100%"
       justifyContent="space-between"
       alignItems="center"
-      px={[30, 30, 50]}
+      px={[15, 30, 50]}
       sx={{
         boxShadow: "2px 2px 8px var(--blueBeige)",
         "& > div > ul > li > a": {
@@ -26,7 +29,8 @@ const Header = () => {
     >
       <Flex alignItems="center" sx={{ "& > ul > li": { listStyle: "none" } }}>
         <MenuRoundedIcon
-          sx={{ mr: 2, fill: "var(--blueBeige)", cursor: "pointer", "@media (min-width: 740px)": { display: "none" } }}
+          onClick={() => setOpenMenu(true)}
+          sx={{ mr: 2, fill: "var(--blueBeige)", cursor: "pointer", "@media (min-width: 700px)": { display: "none" } }}
         />
         <Brand />
         <Nav />
@@ -44,6 +48,7 @@ const Header = () => {
           {data ? "Sign out" : "Sign in"}
         </MyButton>
       </Flex>
+      {openMenu && <Menu onClose={() => setOpenMenu(false)} />}
     </Flex>
   );
 };

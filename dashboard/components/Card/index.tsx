@@ -3,8 +3,8 @@ import type { FlexProps } from "rebass";
 import { Flex } from "rebass";
 
 interface CardProps extends FlexProps {
-  widthCard: number;
-  heightCard: number | string;
+  widthCard: any;
+  heightCard: any;
   bg: string;
   children?: ReactNode;
 }
@@ -16,6 +16,7 @@ export const Card = ({ widthCard, heightCard, bg, ...props }: CardProps) => {
       height={heightCard}
       backgroundColor={bg}
       padding={20}
+      pt={[10, 10, 20]}
       flexDirection="column"
       alignItems="center"
       {...props}

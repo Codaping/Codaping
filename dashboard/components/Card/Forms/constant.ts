@@ -1,40 +1,12 @@
-import axios from "axios";
-
+import { addParticipant } from "../../../libraries/queries/addParticipant";
+import { findParticipants } from "../../../libraries/queries/findParticipants";
+import { suggestTopic } from "../../../libraries/queries/suggestTopic";
 import type { Subject } from "../../../types/subject";
-
-const suggest = async (name: string[], difficulty: string) => {
-  const res = (
-    await axios.post("http://localhost:3000/api/search/suggestTopic", {
-      difficulty: difficulty,
-      names: name
-    })
-  ).data as Subject;
-
-  return res;
-};
-
-export const addParticipant = async (obj: { name: string }[], subject: string) => {
-  await Promise.all(
-    Object.entries(obj).map(async ([_, value]) => {
-      await axios.post("http://localhost:3000/api/participants/addParticipant", {
-        name: value.name,
-        project: subject
-      });
-    })
-  );
-};
-
-const find = async (name: string[], subject: string) => {
-  await axios.post("http://localhost:3000/api/search/findParticipants", {
-    participants: name,
-    subject: subject
-  });
-};
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLDivElement>,
-  button: string,
   page: string | null,
+  button?: string | undefined,
   onSuggestedSubject?: (suggestedSubject: Subject) => void
 ) => {
   e.preventDefault();
@@ -73,26 +45,8 @@ export const handleSubmit = async (
   });
   const name = combinedObject.map((names) => names.name);
   if (page === "add") addParticipant(combinedObject, subjectName);
-  else if (page === "search" && button === "button1") find(name, subjectName);
+  else if (page === "search" && button === "button1") findParticipants(name, subjectName);
   else if (page === "search" && button === "button2") {
-    onSuggestedSubject && onSuggestedSubject(await suggest(name, difficulty));
+    onSuggestedSubject && onSuggestedSubject(await suggestTopic(name, difficulty));
   }
 };
-
-// du coup je vais noter tout ce qu'il reste comme ca on oublie rien
-
-// 2) faire le responsive // Forms
-
-// 4) sur la page de perso possibilité d'avoir les templates DL
-
-// 6) ajouter des desctiptions pour les parties add/search
-// faire le menu
-// faire les loader
-// faire l'algo pour search
-// je crois que c'est tout
-// C'est pas mal
-
-// Je fais quoi ? Tu afis l'ocr ?
-// oui je peux tu as un exemple ? pcq j'ai jamais fais
-// https://github.com/Clement-Muth/gala-subscription/blob/master/apps/web/views/formulaire/StudentCard.tsx
-// ouki, bah tu peux faire ce que tu veux d'autre, je dirais en premier le 5) pcq c'est important. d'accord, parfait

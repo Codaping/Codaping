@@ -10,7 +10,7 @@ import { ParticipantName } from "./ParticipantsName";
 import { SubjectName } from "./SubjectName";
 
 interface FormSectionProps {
-  wichButtonRight: string;
+  wichButtonRight?: string;
   page: string | null;
   onSuggestedSubject?: (suggestedSubject: Subject) => void;
 }
@@ -23,7 +23,7 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
     <Box
       as="form"
       width="100%"
-      p={20}
+      p={[0, 10, 20]}
       sx={{
         animation: "fadeIn .5s",
         "@keyframes fadeIn": {
@@ -37,54 +37,62 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
       }}
       onSubmit={async (e) => {
         setLoading(true);
-        await handleSubmit(e, props.wichButtonRight, props.page, props.onSuggestedSubject);
+        await handleSubmit(e, props.page, props?.wichButtonRight, props.onSuggestedSubject);
         setLoading(false);
       }}
     >
       {props.wichButtonRight === "button1" ? <SubjectName /> : <Difficulty />}
       <ParticipantName repetition={number} />
-      <MyButton
-        type="button"
-        variant="outlined"
-        bg="inherit"
-        color="var(--blueGrey)"
-        fontWeight={500}
-        onClick={() => {
-          setNumber(number + 1);
-        }}
-        sx={{ borderColor: "var(--blueBeige)" }}
-      >
-        + Add Another
-      </MyButton>
-      <Flex justifyContent="center">
-        {props.page === "search" ? (
-          <MyButton
-            type="submit"
-            name="search"
-            variant="contained"
-            bg="var(--beige)"
-            color="var(--blue)"
-            fontWeight={600}
-            width={130}
-            sx={{ borderColor: "var(--beige)" }}
-            disabled={loading}
-          >
-            {loading ? <Loader size={20} sx={{ color: "black" }} /> : "Search"}
-          </MyButton>
-        ) : props.page === "add" ? (
-          <MyButton
-            type="submit"
-            name="add"
-            variant="contained"
-            bg="var(--beige)"
-            color="var(--blue)"
-            fontWeight={600}
-            width={130}
-            sx={{ borderColor: "var(--beige)" }}
-          >
-            Add
-          </MyButton>
-        ) : null}
+      <Flex flexDirection={["row", "row", "column"]} justifyContent="center" sx={{ gap: 10 }}>
+        <MyButton
+          type="button"
+          variant="outlined"
+          bg="inherit"
+          color="var(--blueGrey)"
+          height={[40, 40, 50]}
+          fontSize={["12px", "12px", "16px"]}
+          fontWeight={500}
+          onClick={() => {
+            setNumber(number + 1);
+          }}
+          sx={{ borderColor: "var(--blueBeige)" }}
+        >
+          + Add Another
+        </MyButton>
+        <Flex justifyContent="center">
+          {props.page === "search" ? (
+            <MyButton
+              type="submit"
+              name="search"
+              variant="contained"
+              bg="var(--beige)"
+              color="var(--blue)"
+              fontSize={["12px", "12px", "16px"]}
+              height={[40, 40, 50]}
+              fontWeight={600}
+              width={130}
+              sx={{ borderColor: "var(--beige)" }}
+              disabled={loading}
+            >
+              {loading ? <Loader size={20} sx={{ color: "black" }} /> : "Search"}
+            </MyButton>
+          ) : props.page === "add" ? (
+            <MyButton
+              type="submit"
+              name="add"
+              variant="contained"
+              fontSize={["12px", "12px", "16px"]}
+              height={[40, 40, 50]}
+              bg="var(--beige)"
+              color="var(--blue)"
+              fontWeight={600}
+              width={130}
+              sx={{ borderColor: "var(--beige)" }}
+            >
+              Add
+            </MyButton>
+          ) : null}
+        </Flex>
       </Flex>
     </Box>
   );

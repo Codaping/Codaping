@@ -8,7 +8,8 @@ export const authOptions = {
       clientSecret: process.env.AZURE_CLIENT_SECRET,
       tenantId: process.env.AZURE_TENANT_ID
     })
-  ]
+  ],
+  secret: process.env.JWT_SECRET
 };
 
 export default NextAuth(authOptions);

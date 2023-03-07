@@ -15,8 +15,8 @@ import type { Category, Subject } from "../../types/subject";
 interface ParametersSubjectProps {
   pdfFile: File | undefined;
   setPdfFile: React.Dispatch<React.SetStateAction<File | undefined>>;
-  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
-  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  updateSubject: (category: any, v: (s: Subject[]) => Subject[]) => void;
+  updatefileMetadata: (category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) => void;
 }
 
 type FormValues = {
@@ -64,7 +64,7 @@ export const ParametersSubject = ({ updateSubject, updatefileMetadata, ...props 
       // get added pdf...
       const url = await getDownloadURL(ref(storage, `subjects/${category}/${formattedName}/${formattedName}.pdf`));
 
-      updatefileMetadata((fileMetadata) => [
+      updatefileMetadata(category, (fileMetadata) => [
         ...fileMetadata!.filter((file) => file.name !== formattedName + ".pdf"),
         {
           url,
@@ -73,7 +73,7 @@ export const ParametersSubject = ({ updateSubject, updatefileMetadata, ...props 
           fullPath: `subjects/${category}/${formattedName}/${formattedName}.pdf`
         }
       ]);
-      updateSubject((subjects) => [
+      updateSubject(category, (subjects) => [
         ...subjects.filter((sub) => sub.name !== formattedName),
         {
           name: formattedName,

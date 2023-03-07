@@ -6,7 +6,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { Flex, Text } from "rebass";
 
-import { ocrProcess } from "./constants";
+import { ocrProcess } from "../../components/Card/constants";
 
 export type LoadingFileT = {
   value: boolean;
@@ -89,10 +89,10 @@ export const DragAndDropSection = ({ ...props }) => {
 
   return (
     <Flex
-      height={250}
-      width={340}
+      height={["100%", 250]}
+      width={[265, 290, 340]}
       bg="#928490"
-      marginTop={30}
+      marginTop={[10, 30]}
       padding={20}
       sx={{
         border: "dashed 1px ",

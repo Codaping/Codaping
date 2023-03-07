@@ -3,10 +3,13 @@ import type { TextItem } from "react-pdf";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Box, Flex } from "rebass";
 
-import { listParticipantParser } from "../../utils/listParticipantParser";
+import { ExplicationCard } from "../../components/Card/ExplicationCard";
+import { downloadTemplate } from "../../utils/downloadTemplate";
+import { listAddParser } from "../../utils/listAddParser";
 import { PrincipalCard } from "../common/PrincipalCard";
 
 export const AddParticipants = () => {
+  const [wichButtonTop, setWichButtonTop] = useState<"button1" | "button2">("button1");
   const [url, setUrl] = useState<string | ArrayBuffer>("");
   const [textsDoc, setTextsDoc] = useState<TextItem[]>();
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -20,14 +23,19 @@ export const AddParticipants = () => {
         })
         .filter((text) => text !== undefined) as string[];
 
-      listParticipantParser(formatedTexts);
+      listAddParser(formatedTexts);
     } catch (error) {
       console.log(error);
     }
   }, [textsDoc]);
 
   return (
-    <Flex alignItems="center">
+    <Flex
+      alignItems="center"
+      py={[5, 5, 5, 0]}
+      flexDirection={["column", "column", "column", "row"]}
+      sx={{ "& > div": { flex: 1 } }}
+    >
       <PrincipalCard
         page="add"
         title="Add Participants"
@@ -36,7 +44,17 @@ export const AddParticipants = () => {
         displayRight={false}
         url={url}
         setUrl={setUrl}
-        handleParse={(arr) => listParticipantParser(arr)}
+        handleParse={(arr) => listAddParser(arr)}
+        wichButtonTop={wichButtonTop}
+        setWichButtonTop={setWichButtonTop}
+      />
+      <ExplicationCard
+        title={wichButtonTop === "button1" ? "Add with pdf or image" : "Add with form"}
+        explanation="Add participants relate to the topic they have made"
+        obligation="Download the <addParticipants> template to perform the addition"
+        largeExplanation="You can add the participants related to the topic they made. <br /> <br /> You must download the template and follow the order set in it for adding information. The topic section has only one topic name! <br /> <br /> In the participants section, you can put as many names of participants as you want but put them in the right categories. First name and Last name. <br /> <br /> If you don't follow these instructions it won't work."
+        onClick={() => downloadTemplate("templates/subjectName.pdf", "addParticipants")}
+        button={wichButtonTop === "button1" ? true : false}
       />
       {url && (
         <Box

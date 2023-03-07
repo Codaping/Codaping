@@ -7,8 +7,8 @@ import type { Subject } from "../../types/subject";
 import { ParametersSubject } from "./ParametersSubject";
 
 interface AddSubjectProps {
-  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
-  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  updateSubject: (category: any, v: (s: Subject[]) => Subject[]) => void;
+  updatefileMetadata: (category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) => void;
   onClick?: () => void;
 }
 

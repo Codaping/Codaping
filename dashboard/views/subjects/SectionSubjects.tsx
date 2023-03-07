@@ -12,8 +12,8 @@ interface SectionSubjectsProps {
   fileMetadata: FileMetadata[] | undefined;
   subjects: Subject[];
   titleSection: string;
-  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
-  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  updateSubject: (category: any, v: (s: Subject[]) => Subject[]) => void;
+  updatefileMetadata: (category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) => void;
 }
 
 export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
@@ -24,7 +24,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
         const { data: removedTopicSubject } = await axios.post(
           "http://localhost:3000/api/subjects/removeTopicOfTheDay"
         );
-        props.updateSubject((subjects) => [
+        props.updateSubject(subject.category, (subjects) => [
           ...subjects.filter((sub) => sub.name !== removedTopicSubject.name),
           removedTopicSubject
         ]);
@@ -46,7 +46,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
         category: subject.category
       });
 
-      props.updateSubject((subjects) => [
+      props.updateSubject(subject.category, (subjects) => [
         ...subjects.filter((sub) => sub.name !== updatedSubject.name),
         updatedSubject
       ]);
@@ -69,6 +69,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
       </Text>
       <Box
         key={`pdf${props.titleSection}`}
+        id="test"
         sx={{
           display: "grid",
           gridTemplateColumns: `repeat(auto-fill, minmax(245px, 1fr))`,
@@ -82,7 +83,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
         {props.fileMetadata?.map((data, i) => {
           return (
             <Box key={`pdf${props.titleSection}+${i}`}>
-              {props.subjects.some((subject) => {
+              {props.subjects?.some((subject) => {
                 return data.name.replace(".pdf", "") === subject.name;
               }) && (
                 <SubjectCard

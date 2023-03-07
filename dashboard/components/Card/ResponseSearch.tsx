@@ -20,6 +20,12 @@ export const ResponseSearch: FC<ResponseSearchProps> = ({ suggestedSubject }) =>
         textAlign="center"
         sx={{ transform: "rotate(5deg)" }}
       >
+        <Flex
+          width={10}
+          height={10}
+          bg="var(--blueGrey)"
+          sx={{ borderRadius: "50%", left: 10, top: 10, position: "absolute" }}
+        ></Flex>
         <Text as="p" fontSize={24} pb={30} color="var(--blue)">
           Suggested project
         </Text>

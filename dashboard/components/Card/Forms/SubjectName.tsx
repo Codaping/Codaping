@@ -14,7 +14,7 @@ export const SubjectName = () => {
 
   return (
     <Box>
-      <Label htmlFor="subject-name" fontWeight={400} fontSize={20} pb={2} color="var(--lightBeige)">
+      <Label htmlFor="subject-name" fontWeight={400} fontSize={[16, 20]} pb={2} color="var(--lightBeige)">
         Subject Name
       </Label>
       <Select id="subject-name" name="subject-name" bg="var(--beige)" height={40} sx={{ border: "none" }}>

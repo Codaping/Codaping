@@ -4,5 +4,6 @@ declare namespace NodeJS {
     AZURE_CLIENT_SECRET: string;
     AZURE_TENANT_ID: string;
     API_KEY_VISION: string;
+    JWT_SECRET: string;
   }
 }

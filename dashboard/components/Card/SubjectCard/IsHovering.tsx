@@ -22,8 +22,8 @@ interface IsHoveringProps {
   difficultySubject: string;
   onCheck: () => void;
   checked: boolean;
-  updateSubject: React.Dispatch<React.SetStateAction<Subject[]>>;
-  updatefileMetadata: React.Dispatch<React.SetStateAction<FileMetadata[] | undefined>>;
+  updateSubject: (category: any, v: (s: Subject[]) => Subject[]) => void;
+  updatefileMetadata: (category: any, v: (s: FileMetadata[] | undefined) => FileMetadata[]) => void;
 }
 
 export const IsHovering = ({ updateSubject, updatefileMetadata, ...props }: IsHoveringProps) => {
@@ -52,8 +52,12 @@ export const IsHovering = ({ updateSubject, updatefileMetadata, ...props }: IsHo
         category: props.titleSection
       }
     });
-    updateSubject((subjects) => subjects.filter((sub) => sub.name !== props.data.name.replace(".pdf", "")));
-    updatefileMetadata((fileMetadata) => fileMetadata!.filter((file) => file.name !== props.data.name));
+    updateSubject(props.titleSection, (subjects) =>
+      subjects.filter((sub) => sub.name !== props.data.name.replace(".pdf", ""))
+    );
+    updatefileMetadata(props.titleSection, (fileMetadata) =>
+      fileMetadata!.filter((file) => file.name !== props.data.name)
+    );
   };
 
   const handleSetNoteChange = async (newNote: number) => {
