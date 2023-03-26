@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Box, Flex, Text } from "rebass";
 
-import { storage } from "../../libraries/firebase";
-import type { Subject } from "../../types/subject";
-import { DownloadPdf } from "../common/DownloadPdf";
+import { storage } from "../../../libraries/firebase";
+import type { Subject } from "../../../types/subject";
+import { DownloadPdf } from "../../common/DownloadPdf";
 
-export const TopicOfTheDay = () => {
+export const CardPdf = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [url, setUrl] = useState<string | null>("");
   const [topicOfTheDay, setTopicOfTheDay] = useState<Subject | null>(null);

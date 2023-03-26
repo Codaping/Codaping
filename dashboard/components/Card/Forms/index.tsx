@@ -1,6 +1,6 @@
 import Loader from "@mui/material/CircularProgress";
 import { useState } from "react";
-import { Box, Flex } from "rebass";
+import { Box, Flex, Text } from "rebass";
 
 import type { Subject } from "../../../types/subject";
 import { MyButton } from "../../Buttons";
@@ -12,12 +12,14 @@ import { SubjectName } from "./SubjectName";
 interface FormSectionProps {
   wichButtonRight?: string;
   page: string | null;
-  onSuggestedSubject?: (suggestedSubject: Subject) => void;
+  onValidate: () => void;
+  onSuggestedSubject?: (suggestedSubject: Subject | string[] | string) => void;
 }
 
 export const FormSection = ({ ...props }: FormSectionProps) => {
   const [number, setNumber] = useState(2);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   return (
     <Box
@@ -36,13 +38,29 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
         }
       }}
       onSubmit={async (e) => {
-        setLoading(true);
-        await handleSubmit(e, props.page, props?.wichButtonRight, props.onSuggestedSubject);
-        setLoading(false);
+        try {
+          setLoading(true);
+          await handleSubmit(e, props.page, props?.wichButtonRight, props.onSuggestedSubject);
+          props.onValidate();
+          setLoading(false);
+        } catch (e) {
+          setError(e as string);
+          setLoading(false);
+        }
       }}
     >
       {props.wichButtonRight === "button1" ? <SubjectName /> : <Difficulty />}
-      <ParticipantName repetition={number} />
+      <ParticipantName repetition={number} onChange={() => setError(undefined)} />
+      {error && (
+        <Text
+          as="p"
+          color="darkRed"
+          fontWeight={600}
+          dangerouslySetInnerHTML={{
+            __html: error
+          }}
+        />
+      )}
       <Flex flexDirection={["row", "row", "column"]} justifyContent="center" sx={{ gap: 10 }}>
         <MyButton
           type="button"
@@ -55,7 +73,7 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
           onClick={() => {
             setNumber(number + 1);
           }}
-          sx={{ borderColor: "var(--blueBeige)" }}
+          sx={{ borderColor: "var(--blueBeige)", textDecoration: "underline" }}
         >
           + Add Another
         </MyButton>
@@ -67,9 +85,9 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
               variant="contained"
               bg="var(--beige)"
               color="var(--blue)"
-              fontSize={["12px", "12px", "16px"]}
-              height={[40, 40, 50]}
-              fontWeight={600}
+              fontSize={["12px", "12px", "18px"]}
+              height={[40, 40, 45]}
+              fontWeight={700}
               width={130}
               sx={{ borderColor: "var(--beige)" }}
               disabled={loading}
@@ -81,15 +99,16 @@ export const FormSection = ({ ...props }: FormSectionProps) => {
               type="submit"
               name="add"
               variant="contained"
-              fontSize={["12px", "12px", "16px"]}
-              height={[40, 40, 50]}
+              fontSize={["12px", "12px", "18px"]}
+              height={[40, 40, 45]}
               bg="var(--beige)"
               color="var(--blue)"
-              fontWeight={600}
+              fontWeight={700}
               width={130}
               sx={{ borderColor: "var(--beige)" }}
+              disabled={loading}
             >
-              Add
+              {loading ? <Loader size={20} sx={{ color: "black" }} /> : "Add"}
             </MyButton>
           ) : null}
         </Flex>

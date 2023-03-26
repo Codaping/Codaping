@@ -1,7 +1,7 @@
 import { Flex } from "rebass";
 
-import { PrincipalCard } from "../common/PrincipalCard";
 import { ScanMe } from "./ScanMe";
+import { TopicOfTheDay } from "./TopicOfTheDay";
 
 const Home = () => {
   return (
@@ -35,12 +35,7 @@ const Home = () => {
         }
       }}
     >
-      <PrincipalCard
-        title="Topic of the day"
-        description="Drag & Drop your files here"
-        displayTop={false}
-        displayRight={false}
-      />
+      <TopicOfTheDay />
       <ScanMe />
     </Flex>
   );

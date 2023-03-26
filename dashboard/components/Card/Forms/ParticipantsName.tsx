@@ -4,6 +4,7 @@ import { Box, Flex } from "rebass";
 
 interface ParticipantNameProps {
   repetition: number;
+  onChange?: () => void;
 }
 
 export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
@@ -27,6 +28,7 @@ export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
               type="text"
               bg="var(--beige)"
               fontSize={["12px", "16px"]}
+              onChange={props.onChange}
               height={40}
               width={1 / 2}
               mb={2}
@@ -34,6 +36,7 @@ export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
               data-lpignore="true"
               data-form-type="other"
               sx={{ border: "none", outline: "none" }}
+              required
             />
             <Input
               id={`lastName${i}`}
@@ -42,6 +45,7 @@ export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
               type="text"
               bg="var(--beige)"
               fontSize={["12px", "16px"]}
+              onChange={props.onChange}
               height={40}
               width={1 / 2}
               mb={2}
@@ -49,6 +53,7 @@ export const ParticipantName: FC<ParticipantNameProps> = ({ ...props }) => {
               data-lpignore="true"
               data-form-type="other"
               sx={{ border: "none" }}
+              required
             />
           </Flex>
         ))}

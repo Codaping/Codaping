@@ -4,7 +4,6 @@ import { Flex, Text } from "rebass";
 import { Card } from "../../components/Card";
 import { FormSection } from "../../components/Card/Forms";
 import type { Subject } from "../../types/subject";
-import { TopicOfTheDay } from "../home/TopicOfTheDay";
 import { RightButtons } from "../search/Buttons/RightButtons";
 import { DragAndDropSection } from "./DragAndDropSection";
 import { TopButtons } from "./TopButtons";
@@ -13,9 +12,13 @@ interface PrincipalCardProps {
   title: string;
   page?: string;
   description: string;
-  displayTop: boolean;
   displayRight: boolean;
-  onSuggestedSubject?: (suggestedSubject: Subject) => void;
+  onValidate: () => void;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
+  setError: Dispatch<SetStateAction<string | undefined>>;
+  error: string | undefined;
+  onSuggestedSubject?: (suggestedSubject: Subject | string[] | string) => void;
   url?: string | ArrayBuffer;
   setUrl?: Dispatch<SetStateAction<string | ArrayBuffer>>;
   handleParse?: (arr: string[]) => void;
@@ -40,31 +43,31 @@ export const PrincipalCard = ({ ...props }: PrincipalCardProps) => {
         }}
       >
         <Flex flexDirection="column" alignItems="center">
-          {props.displayTop ? (
-            <TopButtons wichButton={props?.wichButtonTop} setWichButton={props?.setWichButtonTop} />
-          ) : null}
+          <TopButtons wichButton={props?.wichButtonTop} setWichButton={props?.setWichButtonTop} />
           <Card widthCard={[300, 350, 450]} heightCard={[307, 357, 437]} bg="var(--blueBeige)">
             <Text as="p" color="var(--lightBeige)" fontSize={[24, 26, 32]} fontWeight={300} marginTop={[0, 10]}>
               {props.title}
             </Text>
-            {props?.wichButtonTop == "button1" && props.displayTop === true ? (
+            {props?.wichButtonTop === "button1" ? (
               <DragAndDropSection
                 description={props.description}
                 url={props.url}
                 setUrl={props.setUrl}
                 handleParse={props.handleParse}
+                onValidate={props.onValidate}
+                setLoading={props.setLoading}
+                loading={props.loading}
+                setError={props.setError}
+                error={props.error}
               />
-            ) : props?.wichButtonTop == "button2" && props.displayTop === true ? (
+            ) : props?.wichButtonTop === "button2" ? (
               <FormSection
                 wichButtonRight={props?.wichButtonRight ?? "button1"}
                 page={props.page ?? null}
                 onSuggestedSubject={props.onSuggestedSubject}
+                onValidate={props.onValidate}
               />
-            ) : (
-              <Flex width="100%" height="100%" justifyContent="center" alignItems="center">
-                <TopicOfTheDay />
-              </Flex>
-            )}
+            ) : null}
           </Card>
         </Flex>
         {props.displayRight === true ? (

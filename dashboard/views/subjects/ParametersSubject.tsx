@@ -156,10 +156,10 @@ export const ParametersSubject = ({ updateSubject, updatefileMetadata, ...props 
               width="fit-content"
               sx={{ gap: 10, "& > input": { opacity: 0, position: "absolute" } }}
             >
-              <Text height={36} textAlign="center" fontSize={30} color="var(--blue)">
+              <Text height={36} textAlign="center" fontSize={30} color="var(--beige)">
                 +
               </Text>
-              <Text as="p" height={20}>
+              <Text as="p" height={20} sx={{ textDecoration: "underline" }}>
                 add ressources
               </Text>
               {/* @ts-ignore */}

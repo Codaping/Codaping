@@ -74,9 +74,7 @@ export const ExplicationCard = ({ ...props }: ExplicationCardProps) => {
         <Text as="p" fontSize={20} pb={20} color="var(--blueBeige)">
           {props.section}
         </Text>
-        <Text as="p" fontSize={18} color="var(--blueGrey)">
-          {props.explanation}
-        </Text>
+        <Text as="p" fontSize={18} color="var(--blueGrey)" dangerouslySetInnerHTML={{ __html: props.explanation }} />
         {props.button === true ? (
           <Box
             bg="var(--blueBeige)"

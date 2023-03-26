@@ -12,18 +12,16 @@ export const ocrProcess = (
   json: OcrResult,
   handleParse: (arr: string[]) => void,
   setError: any,
-  setLoadingFile: any
+  onValidate: () => void
 ) => {
   if (json.responses[0].fullTextAnnotation.text) {
     const text = json.responses[0].fullTextAnnotation.text;
 
     handleParse(splitString(text));
+    onValidate();
   } else {
-    setError("Votre carte étudiante ne correspond pas à celle d'une école du groupe IONIS.");
-    setLoadingFile({ value: false });
+    setError("There is a problem in your photo");
     return false;
   }
-
-  setLoadingFile({ value: false, type: "success" });
   return true;
 };

@@ -7,7 +7,7 @@ export const handleSubmit = async (
   e: React.FormEvent<HTMLDivElement>,
   page: string | null,
   button?: string | undefined,
-  onSuggestedSubject?: (suggestedSubject: Subject) => void
+  onSuggestedSubject?: (suggestedSubject: Subject | string[] | string) => void
 ) => {
   e.preventDefault();
 
@@ -17,7 +17,8 @@ export const handleSubmit = async (
   let difficulty = "";
 
   for (const [key, value] of Object.entries(e.target)) {
-    if (value?.name?.includes("firstName"))
+    if (value?.name?.includes("firstName")) {
+      if (!value.value) throw "A First name is empty";
       firstNames = {
         ...firstNames,
         [value.name]: value.value
@@ -26,7 +27,8 @@ export const handleSubmit = async (
           .replace(/[\u0300-\u036f]/g, "")
           .replaceAll(" ", "-")
       };
-    else if (value?.name?.includes("lastName"))
+    } else if (value?.name?.includes("lastName")) {
+      if (!value.value) throw "A Last name is empty";
       lastName = {
         ...lastName,
         [value.name]: value.value
@@ -35,18 +37,34 @@ export const handleSubmit = async (
           .replace(/[\u0300-\u036f]/g, "")
           .replaceAll(" ", "-")
       };
-    else if (value?.name?.includes("subject-name") && button == "button1") subjectName = value.value;
-    else if (value?.name?.includes("difficulty") && button == "button2") difficulty = value.value.toLowerCase();
+    } else if (value?.name?.includes("subject-name") && button == "button1") {
+      if (!value.value)
+        throw "<a href='/subjects' style='color: darkred; font-weight: 600; text-decoration: none;'>Add a subject</a>";
+
+      subjectName = value.value;
+    } else if (value?.name?.includes("difficulty") && button == "button2") difficulty = value.value.toLowerCase();
   }
+
   const firstNamesArray: string[] = Object.values(firstNames);
   const lastNameArray: string[] = Object.values(lastName);
-  const combinedObject = firstNamesArray.map((first, index) => {
-    return { name: first + " " + lastNameArray[index] };
+
+  let combinedObject = null;
+
+  combinedObject = firstNamesArray.map((first, index) => {
+    if (first.length && lastNameArray[index].length) {
+      return { name: first + " " + lastNameArray[index] };
+    }
+    throw "vide";
   });
-  const name = combinedObject.map((names) => names.name);
-  if (page === "add") addParticipant(combinedObject, subjectName);
-  else if (page === "search" && button === "button1") findParticipants(name, subjectName);
-  else if (page === "search" && button === "button2") {
-    onSuggestedSubject && onSuggestedSubject(await suggestTopic(name, difficulty));
+
+  const name = combinedObject?.map((names) => names?.name);
+
+  if (name && combinedObject) {
+    if (page === "add") await addParticipant(combinedObject, subjectName);
+    else if (page === "search" && button === "button1")
+      onSuggestedSubject && onSuggestedSubject(await findParticipants(name, subjectName));
+    else if (page === "search" && button === "button2") {
+      onSuggestedSubject && onSuggestedSubject(await suggestTopic(name, difficulty));
+    }
   }
 };

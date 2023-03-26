@@ -15,18 +15,18 @@ export type LoadingFileT = {
 
 interface DragAndDropSection {
   description?: string;
-  url?: string | ArrayBuffer;
   handleParse: (arr: string[]) => void;
+  onValidate: () => void;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
+  setError: Dispatch<SetStateAction<string | undefined>>;
+  error: string | undefined;
+  url?: string | ArrayBuffer;
   setUrl?: Dispatch<SetStateAction<string | ArrayBuffer>>;
 }
 
 export const DragAndDropSection = ({ ...props }) => {
   const [ocrResult, setOcrResult] = useState<any | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const [loadingFile, setLoadingFile] = useState<LoadingFileT>({
-    value: false
-  });
 
   const ocr = async (url: string | ArrayBuffer) => {
     setOcrResult(
@@ -51,7 +51,7 @@ export const DragAndDropSection = ({ ...props }) => {
         )
       ).data
     );
-    setLoading(false);
+    props.setLoading(false);
   };
 
   const getBase64 = (file: File | null) => {
@@ -66,25 +66,22 @@ export const DragAndDropSection = ({ ...props }) => {
       };
       reader.onerror = function (error) {
         console.log("Error: ", error);
-        setLoading(false);
+        props.setLoading(false);
       };
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
-    setLoadingFile({ value: true, type: "upload" });
+    props.setError(undefined);
+    props.setLoading(true);
     getBase64(e.target.files ? e.target.files[0] : null);
   };
 
   useEffect(() => {
     if (!ocrResult) return;
-    if (ocrResult?.responses[0]?.error) {
-      setLoadingFile({ value: false, type: "waitCheck" });
-      return props.setError("Une erreur est survenue, veillez réessayer.");
-    }
-    if (!ocrProcess(ocrResult, props.handleParse, props.setError, setLoadingFile)) return;
-    setLoading(false);
+    if (ocrResult?.responses[0]?.error) return props.setError("An error has occurred, please try again.");
+    ocrProcess(ocrResult, props.handleParse, props.setError, props.onValidate);
+    props.setLoading(false);
   }, [ocrResult]);
 
   return (
@@ -129,7 +126,7 @@ export const DragAndDropSection = ({ ...props }) => {
           display="flex"
           sx={{ borderColor: "var(--beige)", ":hover": { transform: "scale(1.05)", transitionDuration: "100ms" } }}
         >
-          {loading ? <Loader size={20} sx={{ color: "black" }} /> : "Browse file"}
+          {props.loading ? <Loader size={20} sx={{ color: "black" }} /> : "Browse file"}
         </Text>
       </Label>
       <Input
@@ -141,6 +138,17 @@ export const DragAndDropSection = ({ ...props }) => {
         sx={{ position: "absolute", top: 0, opacity: 0 }}
         onChange={handleChange}
       />
+      {props.error && (
+        <Text
+          as="p"
+          my={10}
+          color="darkRed"
+          fontWeight={600}
+          dangerouslySetInnerHTML={{
+            __html: props.error
+          }}
+        />
+      )}
     </Flex>
   );
 };

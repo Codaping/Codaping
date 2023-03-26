@@ -19,7 +19,7 @@ const findParticipants = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     });
   });
-  res.send(resp);
+  res.send(resp.length ? resp : "No participants have done this projet");
 };
 
 export default findParticipants;
