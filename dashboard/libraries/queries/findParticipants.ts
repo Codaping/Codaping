@@ -4,7 +4,7 @@ import axios from "axios";
 export const findParticipants = async (name: string[], subject: string) => {
   try {
     const res = (
-      await axios.post("http://localhost:3000/api/search/findParticipants", {
+      await axios.post("/api/search/findParticipants", {
         participants: name,
         subject: subject
       })

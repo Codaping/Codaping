@@ -16,7 +16,7 @@ export const CardPdf = () => {
 
   useEffect(() => {
     (async () => {
-      const topic: Subject = (await axios.post("http://localhost:3000/api/subjects/getTopicOfTheDay")).data;
+      const topic: Subject = (await axios.post("/api/subjects/getTopicOfTheDay")).data;
 
       if (!topic) return;
       const listRef = ref(storage, `subjects/${topic.category}/${topic.name}/${topic.name}.pdf`);

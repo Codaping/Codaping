@@ -18,15 +18,15 @@ export const Subject = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get("http://localhost:3000/api/subjects/participant/getSubjectsParticipant");
+      const res = await axios.get("/api/subjects/participant/getSubjectsParticipant");
       setSubjectsParticipant(res.data);
     })();
     (async () => {
-      const res = await axios.get("http://localhost:3000/api/subjects/cobra/getSubjectsCobra");
+      const res = await axios.get("/api/subjects/cobra/getSubjectsCobra");
       setSubjectsCobra(res.data);
     })();
     (async () => {
-      const res = await axios.get("http://localhost:3000/api/subjects/camp/getSubjectsCamp");
+      const res = await axios.get("/api/subjects/camp/getSubjectsCamp");
       setSubjectsCamp(res.data);
     })();
   }, []);

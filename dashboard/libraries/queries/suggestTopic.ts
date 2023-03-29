@@ -6,7 +6,7 @@ import type { Subject } from "../../types/subject";
 export const suggestTopic = async (name: string[], difficulty: string) => {
   try {
     const res = (
-      await axios.post("http://localhost:3000/api/search/suggestTopic", {
+      await axios.post("/api/search/suggestTopic", {
         difficulty: difficulty,
         names: name
       })

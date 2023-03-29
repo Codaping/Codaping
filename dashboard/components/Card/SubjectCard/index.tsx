@@ -33,7 +33,7 @@ export const SubjectCard = ({ ...props }: SubjectCardProps) => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.post("http://localhost:3000/api/subjects/getSubject", {
+      const res = await axios.post("/api/subjects/getSubject", {
         name: props.data.name.replace(".pdf", ""),
         category: props.titleSection
       });

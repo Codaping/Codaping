@@ -15,7 +15,7 @@ interface RadioDifficultyProps {
 
 export const RadioDifficulty = ({ ...props }: RadioDifficultyProps) => {
   const handleSetDifficulty = async (e: any) => {
-    await axios.post("http://localhost:3000/api/subjects/addDifficulty", {
+    await axios.post("/api/subjects/addDifficulty", {
       name: props.data?.name.replace(".pdf", ""),
       category: props.titleSection,
       difficulty: e.currentTarget.value

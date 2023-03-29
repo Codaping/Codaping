@@ -46,7 +46,7 @@ export const IsHovering = ({ updateSubject, updatefileMetadata, ...props }: IsHo
         await handleDeleteFolder(prefixe.fullPath);
       })
     );
-    await axios.delete("http://localhost:3000/api/subjects/deleteSubject", {
+    await axios.delete("/api/subjects/deleteSubject", {
       data: {
         name: props.data.name.replace(".pdf", ""),
         category: props.titleSection
@@ -61,7 +61,7 @@ export const IsHovering = ({ updateSubject, updatefileMetadata, ...props }: IsHo
   };
 
   const handleSetNoteChange = async (newNote: number) => {
-    await axios.post("http://localhost:3000/api/subjects/addNote", {
+    await axios.post("/api/subjects/addNote", {
       name: props.data?.name.replace(".pdf", ""),
       category: props.titleSection,
       note: newNote

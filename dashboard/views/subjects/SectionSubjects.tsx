@@ -21,15 +21,13 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
   const onCheck = async (subject: Subject) => {
     if (props.titleSection !== "cobra") {
       if (!subject.isTopicOfTheDay) {
-        const { data: removedTopicSubject } = await axios.post(
-          "http://localhost:3000/api/subjects/removeTopicOfTheDay"
-        );
+        const { data: removedTopicSubject } = await axios.post("/api/subjects/removeTopicOfTheDay");
         props.updateSubject(subject.category, (subjects) => [
           ...subjects.filter((sub) => sub.name !== removedTopicSubject.name),
           removedTopicSubject
         ]);
       }
-      await axios.post("http://localhost:3000/api/subjects/updateSubject", {
+      await axios.post("/api/subjects/updateSubject", {
         name: subject.name,
         category: subject.category,
         data: !subject.isTopicOfTheDay
@@ -41,7 +39,7 @@ export const SectionSubjects = ({ ...props }: SectionSubjectsProps) => {
               isTopicOfTheDay: !subject.isTopicOfTheDay
             }
       });
-      const { data: updatedSubject } = await axios.post("http://localhost:3000/api/subjects/getSubject", {
+      const { data: updatedSubject } = await axios.post("/api/subjects/getSubject", {
         name: subject.name,
         category: subject.category
       });

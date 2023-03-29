@@ -39,7 +39,7 @@ export const ParametersSubject = ({ updateSubject, updatefileMetadata, ...props 
         .trim()
         .replaceAll(" ", "-");
       const category = (event.target as unknown as FormValues).category.value as Category;
-      await axios.post("http://localhost:3000/api/subjects/addSubject", {
+      await axios.post("/api/subjects/addSubject", {
         name: formattedName,
         category: category,
         note: 0,
