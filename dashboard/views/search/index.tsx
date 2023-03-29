@@ -102,7 +102,7 @@ export const Search = () => {
           }
           onClick={() => {
             wichButtonRight === "button1"
-              ? downloadTemplate("templates/subjectName.pdf", "findParticipants")
+              ? downloadTemplate("templates/subjectName.docx", "findParticipants")
               : downloadTemplate("templates/difficulty.docx", "suggestTopic");
           }}
           button={wichButtonTop === "button1" ? true : false}

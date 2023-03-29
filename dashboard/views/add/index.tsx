@@ -72,7 +72,7 @@ export const AddParticipants = () => {
           }
           obligation="Download the <addParticipants> template to perform the addition"
           largeExplanation="You can add the participants related to the topic they made. <br /> <br /> You must download the template and follow the order set in it for adding information. The topic section has only one topic name! <br /> <br /> In the participants section, you can put as many names of participants as you want but put them in the right categories. First name and Last name. <br /> <br /> If you don't follow these instructions it won't work."
-          onClick={() => downloadTemplate("templates/subjectName.pdf", "addParticipants")}
+          onClick={() => downloadTemplate("templates/subjectName.docx", "addParticipants")}
           button={wichButtonTop === "button1" ? true : false}
         />
         {addSuccess && <Messages messages="Participants successfuly added" onClose={() => setAddSuccess(false)} />}
