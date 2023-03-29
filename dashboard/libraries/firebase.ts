@@ -1,7 +1,7 @@
 import type { FirebaseOptions } from "firebase/app";
 import { initializeApp } from "firebase/app";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore/lite";
-import { connectStorageEmulator, getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore/lite";
+import { getStorage } from "firebase/storage";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -18,14 +18,14 @@ const firebaseConfig: FirebaseOptions = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-const EMULATORS_STARTED = "EMULATORS_STARTED";
+// const EMULATORS_STARTED = "EMULATORS_STARTED";
 export const storage = getStorage(app);
 
-// @ts-ignore
-if (!global[EMULATORS_STARTED]) {
-  // @ts-ignore
-  global[EMULATORS_STARTED] = true;
-  connectFirestoreEmulator(getFirestore(), "localhost", 8080);
-  connectStorageEmulator(storage, "localhost", 9199);
-  console.log("emulator started");
-}
+// // @ts-ignore
+// if (!global[EMULATORS_STARTED]) {
+//   // @ts-ignore
+//   global[EMULATORS_STARTED] = true;
+//   connectFirestoreEmulator(getFirestore(), "localhost", 8080);
+//   connectStorageEmulator(storage, "localhost", 9199);
+//   console.log("emulator started");
+// }
